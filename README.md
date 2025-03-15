@@ -5,9 +5,9 @@
 Le projet consiste en la réalisation d'un jeu de Puissance 4 en Python
 
 ## ✅ Fonctionnalités
-- [Fait ] Interface graphique interactive.
-- [Fait ] Deux joueurs qui s'affrontent.
-- [Fait ] Placement des jetons.
+- [ ] Interface graphique interactive.
+- [ ] Deux joueurs qui s'affrontent.
+- [ ] Placement des jetons.
 - [ ] Vérification automatique de la victoire.
 - [ ] Enregistrer et charger une partie en cours.
 
