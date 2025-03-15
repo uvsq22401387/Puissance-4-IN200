@@ -1,5 +1,5 @@
 import tkinter as tk
-import random
+import random as rd
 
 
 
@@ -18,7 +18,7 @@ joueurs = [
 ]
 
 def matchmaking():
-    joueur_actuel = random.choice(joueurs)
+    joueur_actuel = rd.choice(joueurs)
     return joueur_actuel
 joueur_actuel = matchmaking()
 
@@ -44,6 +44,17 @@ def afficher_grille():
                 case = grille[i][j]  
                 couleur = case["couleur"]
             canvas.create_oval(x1, y1, x2, y2, fill=couleur, outline="black", width=4)
+
+def interagir_jeu():
+    global joueur_actuel
+    global jeu_actif
+    if not jeu_actif:
+        return
+    else:
+        for i in range(lignes - 1, -1, -1):
+            if grille[i][colonne] is None:
+                grille[i][colonne] = joueur_actuel
+                return
 
 
 canvas = tk.Canvas(root, width=colonnes * dim_case, height=lignes * dim_case, bg="#2C3E50")
