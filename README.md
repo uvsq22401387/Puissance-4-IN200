@@ -22,3 +22,8 @@ Le projet consiste en la réalisation d'un jeu de Puissance 4 en Python
 - [ ] Fenêtre de victoire annonçant le gagnant.
 - [ ] Possibilité de recommencer une partie après une victoire.
 
+## Aperçu du jeu
+Voici un aperçu du jeu en action :
+![Puissance 4 Screenshot](screenshot.png)
+
+
