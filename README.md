@@ -1,2 +1,24 @@
 # Puissance-4-IN200
-IN200 PROJECT
+
+# Carnet de Charges - Puissance 4
+## ✅ Description du projet
+Le projet consiste en la réalisation d'un jeu de Puissance 4 en Python
+
+## ✅ Fonctionnalités
+- [Fait ] Interface graphique interactive.
+- [Fait ] Deux joueurs qui s'affrontent.
+- [Fait ] Placement des jetons.
+- [ ] Vérification automatique de la victoire.
+- [ ] Enregistrer et charger une partie en cours.
+
+## ✅ Équipe
+- **Réalisé par :** Anis TOUAT, Adil KORICHI, Ghofrane MAKBOUL, Pierre DETOLLE.
+- **Leader :** Anis TOUAT
+- **Responsable qualité code :** Pierre DETOLLE
+
+
+## ✅ Améliorations possibles
+- [ ] Menu principal permettant de configurer la partie avant le lancement.
+- [ ] Fenêtre de victoire annonçant le gagnant.
+- [ ] Possibilité de recommencer une partie après une victoire.
+
