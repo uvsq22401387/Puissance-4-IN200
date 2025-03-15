@@ -56,12 +56,18 @@ def interagir_jeu(event):
             if grille[i][colonne] is None:
                 grille[i][colonne] = joueur_actuel
                 afficher_grille()
+                #if verifier_victoire(ligne, colonne):
+                    #fenetre_congrats(joueur_actuel)
+                    #jeu_actif = False
+                    #return
                 selection_joueur()
                 return
 
+#def verifier_victoire():
+    #pass
 
 canvas = tk.Canvas(root, width=colonnes * dim_case, height=lignes * dim_case, bg="#2C3E50")
 canvas.pack()
 afficher_grille()
-canvas.bind("<Button-3>", interagir_jeu)
+canvas.bind("<Button-1>", interagir_jeu)
 root.mainloop()
