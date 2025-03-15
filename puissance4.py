@@ -45,19 +45,23 @@ def afficher_grille():
                 couleur = case["couleur"]
             canvas.create_oval(x1, y1, x2, y2, fill=couleur, outline="black", width=4)
 
-def interagir_jeu():
+def interagir_jeu(event):
     global joueur_actuel
     global jeu_actif
     if not jeu_actif:
         return
     else:
+        colonne = event.x // dim_case
         for i in range(lignes - 1, -1, -1):
             if grille[i][colonne] is None:
                 grille[i][colonne] = joueur_actuel
+                afficher_grille()
+                selection_joueur()
                 return
 
 
 canvas = tk.Canvas(root, width=colonnes * dim_case, height=lignes * dim_case, bg="#2C3E50")
 canvas.pack()
 afficher_grille()
+canvas.bind("<Button-3>", interagir_jeu)
 root.mainloop()
