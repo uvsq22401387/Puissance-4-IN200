@@ -64,7 +64,23 @@ def interagir_jeu(event):
 
 #def verifier_victoire():
     #pass
+def fenetre_congrats(joueur):
+    global jeu_actif
+    jeu_actif = False
 
+
+    fenetre2 = tk.Toplevel(root)
+    fenetre2.title("Victoire !")
+
+
+    message_victoire = joueur["nom"] + " a gagné !"
+    label = tk.Label(fenetre2, text=message_victoire,font=("Comic Sans MS", 16), fg=joueur["couleur"])
+    label.grid(column=1, row=0, padx=50)
+
+
+    bouton_fermer = tk.Button(fenetre2, text="Fermer", command=root.destroy)
+    bouton_fermer.grid(column=1, row=1, padx=50)
+    
 canvas = tk.Canvas(root, width=colonnes * dim_case, height=lignes * dim_case, bg="#2C3E50")
 canvas.pack()
 afficher_grille()
