@@ -1,8 +1,6 @@
 import tkinter as tk
 import random as rd
 
-
-
 root = tk.Tk()
 root.title("Puissance 4")
 
@@ -11,17 +9,15 @@ lignes = 6
 colonnes = 7
 dim_case = 80
 grille = [[None] * colonnes for _ in range(lignes)]
-
 joueurs = [
     {"nom": "Joueur 1", "couleur": "red"},
-    {"nom": "Joueur 2", "couleur": "yellow"}
-]
+    {"nom": "Joueur 2", "couleur": "yellow"}]
 
 def matchmaking():
     joueur_actuel = rd.choice(joueurs)
     return joueur_actuel
+    
 joueur_actuel = matchmaking()
-
 
 def selection_joueur():
     global joueur_actuel
@@ -43,7 +39,6 @@ def afficher_grille():
                 couleur = case["couleur"]
             canvas.create_oval(x1, y1, x2, y2, fill=couleur, outline="black", width=4)
 
-
 def interagir_jeu(event):
     global joueur_actuel
     global jeu_actif
@@ -63,40 +58,29 @@ def interagir_jeu(event):
                 return
 
 #def verifier_victoire():
+#il manque le travail de pierre faut qu'il se bouge :)
     #pass
+
 def fenetre_congrats(joueur):
     global jeu_actif
     jeu_actif = False
-
-
+    
     fenetre2 = tk.Toplevel(root)
     fenetre2.title("Victoire !")
-
-
     message_victoire = joueur["nom"] + " a gagné !"
     label = tk.Label(fenetre2, text=message_victoire,font=("Comic Sans MS", 16), fg=joueur["couleur"])
     label.grid(column=1, row=0, padx=50)
-
-
+    
+    #doit ajouter le bouton recommencer
+    
     bouton_fermer = tk.Button(fenetre2, text="Fermer", command=root.destroy)
     bouton_fermer.grid(column=1, row=1, padx=50)
-    
+
+#def recommencer():
+    #pass
+
 canvas = tk.Canvas(root, width=colonnes * dim_case, height=lignes * dim_case, bg="#2C3E50")
 canvas.pack()
 afficher_grille()
 canvas.bind("<Button-1>", interagir_jeu)
 root.mainloop()
-
-"""
-RAPPEL:
-Répartition des tâches pour le projet Puissance 4 :
-1. **Anis** : Doit se charger de l'interaction joueur-jeu ainsi que de la configuration de la partie.
-   - La configuration sera faite plus tard et partagée entre 4 personnes.
-   
-2. **Ghofrane** : Responsable de tout ce qui concerne les joueurs.
-   - Gestion du matchmaking et des rôles.
-   - Création de l'interface de gain et de l'option pour recommencer une partie
-3. **Adil** : S'occupe du système de grille et de la fonction de réinitialisation du jeu.
-   - Gestion de la grille (affichage, placement des jetons).
-   - Implémentation de la fonction pour recommencer une partie.
-"""
