@@ -71,3 +71,11 @@ canvas.pack()
 afficher_grille()
 canvas.bind("<Button-1>", interagir_jeu)
 root.mainloop()
+
+"""
+RAPPEL:
+Répartition des tâches pour le projet Puissance 4 :
+1. **Anis** : Doit se charger de l'interaction joueur-jeu ainsi que de la configuration de la partie.
+   - La configuration sera faite plus tard et partagée entre 4 personnes.
+
+"""
