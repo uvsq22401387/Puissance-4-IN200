@@ -77,5 +77,8 @@ RAPPEL:
 Répartition des tâches pour le projet Puissance 4 :
 1. **Anis** : Doit se charger de l'interaction joueur-jeu ainsi que de la configuration de la partie.
    - La configuration sera faite plus tard et partagée entre 4 personnes.
-
+   
+2. **Ghofrane** : Responsable de tout ce qui concerne les joueurs.
+   - Gestion du matchmaking et des rôles.
+   - Création de l'interface de gain et de l'option pour recommencer une partie
 """
