@@ -34,16 +34,15 @@ def afficher_grille():
     canvas.delete("all")
     for i in range(lignes):
         for j in range(colonnes):
-            x1 = j * dim_case + 5
-            y1 = i * dim_case + 5
-            x2 = x1 + dim_case - 10
-            y2 = y1 + dim_case - 10
+            x1, y1 = j * dim_case + 5, i * dim_case + 5
+            x2, y2 = x1 + dim_case - 10, y1 + dim_case - 10
             if grille[i][j] is None:
                 couleur = "white"
             else:
-                case = grille[i][j]  
+                case = grille[i][j]
                 couleur = case["couleur"]
             canvas.create_oval(x1, y1, x2, y2, fill=couleur, outline="black", width=4)
+
 
 def interagir_jeu(event):
     global joueur_actuel
@@ -81,4 +80,7 @@ Répartition des tâches pour le projet Puissance 4 :
 2. **Ghofrane** : Responsable de tout ce qui concerne les joueurs.
    - Gestion du matchmaking et des rôles.
    - Création de l'interface de gain et de l'option pour recommencer une partie
+3. **Adil** : S'occupe du système de grille et de la fonction de réinitialisation du jeu.
+   - Gestion de la grille (affichage, placement des jetons).
+   - Implémentation de la fonction pour recommencer une partie.
 """
