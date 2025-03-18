@@ -124,13 +124,12 @@ def fenetre_congrats(joueur):
     label = tk.Label(fenetre2, text=message_victoire,font=("Comic Sans MS", 16), fg=joueur["couleur"])
     label.grid(column=1, row=0, padx=50)
     
-    bouton_recommencer = tk.Button(fenetre2, text="Recommencer"#, command=recommencer
-    )
+    bouton_recommencer = tk.Button(fenetre2, text="Recommencer", command=lambda: recommencer(fenetre2))
     bouton_recommencer.grid(column=0, row=1, padx=10, pady=10)
-    bouton_fermer = tk.Button(fenetre2, text="Fermer", command=root.destroy)
+    bouton_fermer = tk.Button(fenetre2, text="Fermer", command=root.destroy) #enft, fallait passer fenetre2 comme argument
     bouton_fermer.grid(column=1, row=1, padx=50)
 
-def recommencer():
+def recommencer(fenetre2):#si on avait utilisé global ca aurait pas actualisé la fenetre
     global jeu_actif, grille, joueur_actuel
     jeu_actif = True
     grille = [[None] * colonnes for _ in range(lignes)]
