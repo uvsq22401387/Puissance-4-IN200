@@ -124,12 +124,14 @@ def fenetre_congrats(joueur):
     label = tk.Label(fenetre2, text=message_victoire,font=("Comic Sans MS", 16), fg=joueur["couleur"])
     label.grid(column=1, row=0, padx=50)
     
-    #doit ajouter le bouton recommencer
-    
+    bouton_recommencer = tk.Button(fenetre2, text="Recommencer"#, command=recommencer
+    )
+    bouton_recommencer.grid(column=0, row=1, padx=10, pady=10)
     bouton_fermer = tk.Button(fenetre2, text="Fermer", command=root.destroy)
     bouton_fermer.grid(column=1, row=1, padx=50)
 
 #def recommencer():
+    #Adil doit ajouter sa partie et normalement tout sera bon !
     #pass
 
 canvas = tk.Canvas(root, width=colonnes * dim_case, height=lignes * dim_case, bg="#2C3E50")
