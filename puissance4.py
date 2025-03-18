@@ -130,9 +130,14 @@ def fenetre_congrats(joueur):
     bouton_fermer = tk.Button(fenetre2, text="Fermer", command=root.destroy)
     bouton_fermer.grid(column=1, row=1, padx=50)
 
-#def recommencer():
-    #Adil doit ajouter sa partie et normalement tout sera bon !
-    #pass
+def recommencer():
+    global jeu_actif, grille, joueur_actuel
+    jeu_actif = True
+    grille = [[None] * colonnes for _ in range(lignes)]
+    joueur_actuel = matchmaking()
+    fenetre2.destroy()
+    afficher_grille()
+
 
 canvas = tk.Canvas(root, width=colonnes * dim_case, height=lignes * dim_case, bg="#2C3E50")
 canvas.pack()
