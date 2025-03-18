@@ -8,8 +8,8 @@ Le projet consiste en la réalisation d'un jeu de Puissance 4 en Python
 - [x] Interface graphique interactive.
 - [x] Deux joueurs qui s'affrontent.
 - [x] Placement des jetons.
-- [ ] Vérification automatique de la victoire.
-- [ ] Enregistrer et charger une partie en cours.
+- [x] Vérification automatique de la victoire.
+- [ ] Enregistrer et charger une partie en cours. (En cours de développement)
 
 ## ✅ Équipe
 - **Réalisé par :** Anis TOUAT, Adil KORICHI, Ghofrane MAKBOUL, Pierre DETOLLE.
@@ -18,9 +18,9 @@ Le projet consiste en la réalisation d'un jeu de Puissance 4 en Python
 
 
 ## ✅ Améliorations possibles
-- [ ] Menu principal permettant de configurer la partie avant le lancement.
+- [ ] Menu principal permettant de configurer la partie avant le lancement. (En cours de développement)
 - [x] Fenêtre de victoire annonçant le gagnant.
-- [x] Possibilité de recommencer une partie après une victoire.
+- [ ] Possibilité de recommencer une partie après une victoire. (En cours de développement)
 
 ## Aperçu du jeu
 Voici un aperçu du jeu en action :
