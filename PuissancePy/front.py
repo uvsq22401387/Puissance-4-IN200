@@ -4,8 +4,10 @@ def afficher_grille():
     canvas.delete("all")
     for i in range(lignes):
         for j in range(colonnes):
-            x1, y1 = j * dim_case + 5, i * dim_case + 5
-            x2, y2 = x1 + dim_case - 10, y1 + dim_case - 10
+            x1= j * dim_case + 5
+            y1 = i * dim_case + 5
+            x2= x1 + dim_case - 10
+            y2 = y1 + dim_case - 10
             if grille[i][j] is None:
                 couleur = "white"
             else:
@@ -24,13 +26,16 @@ def fenetre_congrats(joueur):
     label = tk.Label(fenetre2, text=message_victoire,font=("Comic Sans MS", 16), fg=joueur["couleur"])
     label.grid(column=1, row=0, padx=50)
     
-    #doit ajouter le bouton recommencer
-    
     bouton_fermer = tk.Button(fenetre2, text="Fermer", command=root.destroy)
     bouton_fermer.grid(column=1, row=1, padx=50)
 
-def recommencer():
-    pass
+def recommencer(fenetre2):
+    global jeu_actif, grille, joueur_actuel
+    jeu_actif = True
+    grille = [[None] * colonnes for _ in range(lignes)]
+    joueur_actuel = rd.choice(joueurs)
+    fenetre2.destroy()
+    afficher_grille()
 
 def rejouer():
     """Réinitialise la partie."""
