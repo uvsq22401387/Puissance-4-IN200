@@ -57,6 +57,9 @@ def interagir_jeu(event):
                     fenetre_congrats(joueur_actuel)
                     jeu_actif = False
                     return
+                elif match_nul():#recommendation de la prof : ajout de la condition pour que si toute la grille est remplie, ca affiche match nul
+                    return
+            
                 selection_joueur()
                 return
     
@@ -131,6 +134,12 @@ def fenetre_congrats(joueur):
     bouton_recommencer.grid(column=0, row=1, padx=10, pady=10)
     bouton_fermer = tk.Button(fenetre2, text="Fermer", command=root.destroy) #enft, fallait passer fenetre2 comme argument
     bouton_fermer.grid(column=1, row=1, padx=50)
+
+def match_nul():
+    global jeu_actif
+    if all(None not in ligne for ligne in grille):
+        return True
+    return False
 
 def recommencer(fenetre2):#si on avait utilisé global ca aurait pas actualisé la fenetre
     global jeu_actif, grille, joueur_actuel
