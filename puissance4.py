@@ -4,6 +4,7 @@ import random as rd
 root = tk.Tk()
 root.title("Puissance 4")
 
+# Variables globales
 jeu_actif = True
 lignes = 6
 colonnes = 7
@@ -15,12 +16,14 @@ joueurs = [
 canvas = tk.Canvas(root, width=colonnes * dim_case, height=lignes * dim_case, bg="#2C3E50")
 
 def matchmaking():
+    """fonction qui choisit aléatoirement quel joueur commence"""
     joueur_actuel = rd.choice(joueurs)
     return joueur_actuel
     
-joueur_actuel = matchmaking()
+joueur_actuel = matchmaking() #cette variable permet de savoir quel joueur doit jouer
 
 def selection_joueur():
+    """fonction qui change le tour du joueur"""
     global joueur_actuel
     if joueur_actuel == joueurs[0]:
         joueur_actuel = joueurs[1]
@@ -28,6 +31,7 @@ def selection_joueur():
         joueur_actuel = joueurs[0] 
 
 def afficher_grille():
+    """fonction qui affiche la grille de jeu"""
     canvas.delete("all")
     for i in range(lignes):
         for j in range(colonnes):
@@ -43,6 +47,7 @@ def afficher_grille():
             canvas.create_oval(x1, y1, x2, y2, fill=couleur, outline="black", width=4)
 
 def interagir_jeu(event):
+    """fonction qui permet de placer son jeton dans la grille"""
     global joueur_actuel
     global jeu_actif
     if not jeu_actif:
@@ -64,6 +69,7 @@ def interagir_jeu(event):
     
 
 def verifier_vertical(ligne, colonne, couleur):
+    """verifie si un joueur a gagné verticalement"""
     compteur = 0
     for k in range(-3, 4):
         if 0 <= (ligne + k) and (ligne + k) < lignes:
@@ -78,6 +84,7 @@ def verifier_vertical(ligne, colonne, couleur):
 
 
 def verifier_horizontal(ligne, colonne, couleur):
+    """verifie si un joueur a gagné horizontalement"""
     compteur = 0
     for k in range(-3,4):
         if 0 <= (colonne + k) and (colonne + k) < colonnes:
@@ -90,6 +97,7 @@ def verifier_horizontal(ligne, colonne, couleur):
     return False
 
 def verifier_diagonale(ligne, colonne, couleur):
+    """verifie si un joueur a gagné en diagonale"""
     compteur = 0
     for k in range(-3, 4):
         if (0 <= (colonne + k) and (colonne + k) < colonnes) and (0 <= (ligne + k) and (ligne + k) < len(grille)):
@@ -112,6 +120,7 @@ def verifier_diagonale(ligne, colonne, couleur):
 
 
 def verifier_victoire(ligne, colonne):
+    """verifie si un joueur a gagné en appelant les 3 fonctions ci-dessus"""
     couleur = joueur_actuel
     if verifier_vertical(ligne, colonne, couleur) or verifier_horizontal(ligne, colonne, couleur) or verifier_diagonale(ligne, colonne, couleur):
         return True
@@ -119,7 +128,7 @@ def verifier_victoire(ligne, colonne):
 
 
 def fenetre_congrats(joueur):#ici aussi, on doit restyliser
-
+    """affiche une fenetre de victoire lorsqu'un joueur gagne""" 
     global jeu_actif
     jeu_actif = False
     
@@ -135,6 +144,7 @@ def fenetre_congrats(joueur):#ici aussi, on doit restyliser
     bouton_fermer.grid(column=1, row=1, padx=50)
 
 def match_nul():#la fonction marche, mais c'est pas beau dutout...
+    """affiche une fenetre de match nul"""
     global jeu_actif
     if all(None not in ligne for ligne in grille):
         jeu_actif = False
@@ -154,6 +164,7 @@ def match_nul():#la fonction marche, mais c'est pas beau dutout...
     return False
 
 def recommencer(fenetre2):
+    """fonction qui permet de recommencer la partie"""
     global jeu_actif, grille, joueur_actuel
     jeu_actif = True
     grille = [[None] * colonnes for _ in range(lignes)]
@@ -162,7 +173,7 @@ def recommencer(fenetre2):
     afficher_grille()
 
 
-
+#crée la fenêtre 
 canvas.pack()
 afficher_grille()
 canvas.bind("<Button-1>", interagir_jeu)
