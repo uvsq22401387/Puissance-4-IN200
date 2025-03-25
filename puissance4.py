@@ -138,6 +138,9 @@ def fenetre_congrats(joueur):
 def match_nul():
     global jeu_actif
     if all(None not in ligne for ligne in grille):
+        jeu_actif = False
+        fenetre2 = tk.Toplevel(root)
+        fenetre2.title("Match nul !")
         return True
     return False
 
