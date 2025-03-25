@@ -59,7 +59,6 @@ def interagir_jeu(event):
                     return
                 elif match_nul():#recommendation de la prof : ajout de la condition pour que si toute la grille est remplie, ca affiche match nul
                     return
-            
                 selection_joueur()
                 return
     
@@ -119,7 +118,7 @@ def verifier_victoire(ligne, colonne):
     return False
 
 
-def fenetre_congrats(joueur):
+def fenetre_congrats(joueur):#ici aussi, on doit restyliser
 
     global jeu_actif
     jeu_actif = False
@@ -135,16 +134,26 @@ def fenetre_congrats(joueur):
     bouton_fermer = tk.Button(fenetre2, text="Fermer", command=root.destroy) #enft, fallait passer fenetre2 comme argument
     bouton_fermer.grid(column=1, row=1, padx=50)
 
-def match_nul():
+def match_nul():#la fonction marche, mais c'est pas beau dutout...
     global jeu_actif
     if all(None not in ligne for ligne in grille):
         jeu_actif = False
-        fenetre2 = tk.Toplevel(root)
-        fenetre2.title("Match nul !")
+        fenetre3 = tk.Toplevel(root)
+        fenetre3.title("Match nul !")
+        label = tk.Label(fenetre3, text="Match nul !", font=("Comic Sans MS", 16, "bold"), fg="orange")
+        label.grid(column=1, row=0, padx=50)
+        label2 = tk.Label(fenetre3, text="Personne n'a gagné. Sélectionnez une option:", font=("Comic Sans MS", 14), fg="orange")
+        label2.grid(column=1, row=1, padx=50)
+        bouton_recommencer = tk.Button(fenetre3, text="Recommencer", command=lambda: recommencer(fenetre3))
+        bouton_recommencer.grid(column=0, row=1, padx=10, pady=10)
+        bouton_fermer = tk.Button(fenetre3, text="Fermer", command=root.destroy)
+        bouton_fermer.grid(column=1, row=1, padx=50)
+
         return True
+
     return False
 
-def recommencer(fenetre2):#si on avait utilisé global ca aurait pas actualisé la fenetre
+def recommencer(fenetre2):
     global jeu_actif, grille, joueur_actuel
     jeu_actif = True
     grille = [[None] * colonnes for _ in range(lignes)]
