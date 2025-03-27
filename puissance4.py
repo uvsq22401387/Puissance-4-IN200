@@ -173,6 +173,10 @@ def recommencer(fenetre2):
     afficher_grille()
 
 
+def sauvegarder():
+    fichier = open("ressources/savegame.txt", "w")
+    pass
+
 #crée la fenêtre 
 canvas.pack()
 afficher_grille()
