@@ -164,13 +164,14 @@ def match_nul():#la fonction marche, mais c'est pas beau dutout...
 
     return False
 
-def recommencer(fenetre2):
+def recommencer(fenetre):
     """fonction qui permet de recommencer la partie"""
     global jeu_actif, grille, joueur_actuel
     jeu_actif = True
     grille = [[None] * colonnes for _ in range(lignes)]
     joueur_actuel = matchmaking()
-    fenetre2.destroy()
+    if fenetre!=root:
+        fenetre.destroy()
     afficher_grille()
 
 
@@ -200,6 +201,9 @@ button_frame = tk.Frame(root)
 button_frame.pack()
 bouton_sauvegarder = tk.Button(button_frame, text="Sauvegarder", command=sauvegarder)
 bouton_sauvegarder.grid(row=0, column=1, padx=5)
+bouton_nouveau = tk.Button(button_frame, text="Nouvelle Partie", command=lambda: recommencer(root))
+bouton_nouveau.grid(row=0, column=0, padx=5)
+
 
 #crée la fenêtre 
 canvas.pack()
