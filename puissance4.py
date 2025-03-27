@@ -174,8 +174,11 @@ def recommencer(fenetre2):
 
 
 def sauvegarder():
-    fichier = open("ressources/savegame.txt", "w")
-    pass
+    fichier = open("savegame/savegame.txt", "w")
+    if joueur_actuel == joueurs[0]:
+        fichier.write("0\n")
+    else:
+        fichier.write("1\n")
 
 #crée la fenêtre 
 canvas.pack()
