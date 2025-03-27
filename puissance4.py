@@ -174,11 +174,25 @@ def recommencer(fenetre2):
 
 
 def sauvegarder():
+
     fichier = open("savegame/savegame.txt", "w")
+
+    couleur_j0=joueurs[0]["couleur"]:
+    couleur_j1=joueurs[1]["couleur"]:
+    
     if joueur_actuel == joueurs[0]:
         fichier.write("0\n")
     else:
         fichier.write("1\n")
+    for i in grille:
+            for j in i:
+                if j is None:
+                    fichier.write("#")
+                elif j["couleur"] == couleur_j0:
+                    fichier.write("0")
+                elif j["couleur"] == couleur_j1:
+                    fichier.write("1")
+            fichier.write("\n")
 
 #crée la fenêtre 
 canvas.pack()
