@@ -179,7 +179,7 @@ def sauvegarder():
 
     couleur_j0=joueurs[0]["couleur"]:
     couleur_j1=joueurs[1]["couleur"]:
-    
+
     if joueur_actuel == joueurs[0]:
         fichier.write("0\n")
     else:
@@ -193,6 +193,9 @@ def sauvegarder():
                 elif j["couleur"] == couleur_j1:
                     fichier.write("1")
             fichier.write("\n")
+
+bouton_sauvegarder = tk.Button(button_frame, text="Sauvegarder", command=sauvegarder)
+bouton_sauvegarder.grid(row=0, column=1, padx=5)
 
 #crée la fenêtre 
 canvas.pack()
