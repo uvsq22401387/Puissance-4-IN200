@@ -1,5 +1,6 @@
 import tkinter as tk
 import random as rd
+from tkinter import *
 
 root = tk.Tk()
 root.title("Puissance 4")
@@ -177,8 +178,8 @@ def sauvegarder():
 
     fichier = open("savegame/savegame.txt", "w")
 
-    couleur_j0=joueurs[0]["couleur"]:
-    couleur_j1=joueurs[1]["couleur"]:
+    couleur_j0=joueurs[0]["couleur"]
+    couleur_j1=joueurs[1]["couleur"]
 
     if joueur_actuel == joueurs[0]:
         fichier.write("0\n")
@@ -193,7 +194,10 @@ def sauvegarder():
                 elif j["couleur"] == couleur_j1:
                     fichier.write("1")
             fichier.write("\n")
+    tk.messagebox.showinfo("Sauvegarde de la partie...", "Partie sauvegardée avec succès.")
 
+button_frame = tk.Frame(root)
+button_frame.pack()
 bouton_sauvegarder = tk.Button(button_frame, text="Sauvegarder", command=sauvegarder)
 bouton_sauvegarder.grid(row=0, column=1, padx=5)
 
