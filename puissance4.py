@@ -176,7 +176,7 @@ def recommencer(fenetre):
 
 
 def sauvegarder():
-
+    '''la fonction se charge de sauvegarder la partie en cours'''
     fichier = open("savegame/savegame.txt", "w")
 
     couleur_j0=joueurs[0]["couleur"]
@@ -197,6 +197,7 @@ def sauvegarder():
             fichier.write("\n")
     tk.messagebox.showinfo("Sauvegarde de la partie...", "Partie sauvegardée avec succès.")
 
+'''ajout des boutons à la fenêtre principale'''
 button_frame = tk.Frame(root)
 button_frame.pack()
 bouton_sauvegarder = tk.Button(button_frame, text="Sauvegarder", command=sauvegarder)
