@@ -1,6 +1,6 @@
 import tkinter as tk
 import random as rd
-from tk import *
+from tkinter import *
 
 root = tk.Tk()
 root.title("Puissance 4")
@@ -179,7 +179,6 @@ def sauvegarder():
     '''la fonction se charge de sauvegarder la partie en cours'''
     #seul problème c'est que le dossier doit préexister. j'ai crée le dossier savegame sur github
     fichier = open("savegame/savegame.txt", "w")
-
     couleur_j0=joueurs[0]["couleur"]
     couleur_j1=joueurs[1]["couleur"]
 
@@ -200,23 +199,48 @@ def sauvegarder():
     tk.messagebox.showinfo("Sauvegarde de la partie...", "Partie sauvegardée avec succès.")
 
 def charger():
-    global joueur_actuel,
-    global grille,
+    global joueur_actuel
+    global grille
     global jeu_actif
     fichier=open("savegame/savegame.txt", "r")
     li=fichier.readlines()
     fichier.close()
+
     joueur_actuel_sauvegarde=li[0].strip()
-     if int(joueur_actuel_sauvegarde)==0:
+    if int(joueur_actuel_sauvegarde)==0:
         joueur_actuel=joueurs[0]
     elif int(joueur_actuel_sauvegarde)==1:
         joueur_actuel=joueurs[1]
+
+    grille_sv=[["#"]*colonnes for i in range(lignes)] 
+    cpt=0
+    i=1
+    while i<len(li):
+        ligne_save=li[i].strip()
+        len_l=len(ligne_save)
+        j=0
+        while j<len_l:
+            if ligne_save[j]=="0":
+                grille_sv[cpt][j]=joueurs[0]
+            elif ligne_save[j]=="1":
+                grille_sv[cpt][j]=joueurs[1]
+            elif ligne_save[j]=="#":
+                grille_sv[cpt][j]=None
+            j+= 1
+        cpt+= 1
+        i+= 1
+    grille=grille_sv
+    
+    afficher_grille()
+    tk.messagebox.showinfo("Partie chargée !",f"Le joueur actuel est {joueur_actuel['nom']}.")
 
 '''ajout des boutons à la fenêtre principale'''
 button_frame = tk.Frame(root)
 button_frame.pack()
 bouton_sauvegarder = tk.Button(button_frame, text="Sauvegarder", command=sauvegarder)
 bouton_sauvegarder.grid(row=0, column=1, padx=5)
+bouton_sauvegarder = tk.Button(button_frame, text="Charger", command=charger)
+bouton_sauvegarder.grid(row=0, column=2, padx=5)
 bouton_nouveau = tk.Button(button_frame, text="Nouvelle Partie", command=lambda: recommencer(root))
 bouton_nouveau.grid(row=0, column=0, padx=5)
 
