@@ -1,6 +1,6 @@
 import tkinter as tk
 import random as rd
-from tkinter import *
+from tk import *
 
 root = tk.Tk()
 root.title("Puissance 4")
@@ -177,6 +177,7 @@ def recommencer(fenetre):
 
 def sauvegarder():
     '''la fonction se charge de sauvegarder la partie en cours'''
+    #seul problème c'est que le dossier doit préexister. j'ai crée le dossier savegame sur github
     fichier = open("savegame/savegame.txt", "w")
 
     couleur_j0=joueurs[0]["couleur"]
@@ -195,7 +196,16 @@ def sauvegarder():
                 elif j["couleur"] == couleur_j1:
                     fichier.write("1")
             fichier.write("\n")
+    fichier.close()
     tk.messagebox.showinfo("Sauvegarde de la partie...", "Partie sauvegardée avec succès.")
+
+def charger():
+    global joueur_actuel,
+    global grille,
+    global jeu_actif
+    fichier=open("savegame/savegame.txt", "r")
+    li=fichier.readlines()
+    fichier.close()
 
 '''ajout des boutons à la fenêtre principale'''
 button_frame = tk.Frame(root)
