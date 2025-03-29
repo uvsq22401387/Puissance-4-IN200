@@ -206,6 +206,11 @@ def charger():
     fichier=open("savegame/savegame.txt", "r")
     li=fichier.readlines()
     fichier.close()
+    joueur_actuel_sauvegarde=li[0].strip()
+     if int(joueur_actuel_sauvegarde)==0:
+        joueur_actuel=joueurs[0]
+    elif int(joueur_actuel_sauvegarde)==1:
+        joueur_actuel=joueurs[1]
 
 '''ajout des boutons à la fenêtre principale'''
 button_frame = tk.Frame(root)
