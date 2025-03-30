@@ -12,9 +12,10 @@ colonnes = 7
 dim_case = 80
 grille = [[None] * colonnes for _ in range(lignes)]
 joueurs = [
-    {"nom": "Joueur 1", "couleur": "red"},
-    {"nom": "Joueur 2", "couleur": "yellow"}]
+    {"nom": "Joueur 1", "couleur": "red", "Joker": True},
+    {"nom": "Joueur 2", "couleur": "yellow", "Joker": True}]
 canvas = tk.Canvas(root, width=colonnes * dim_case, height=lignes * dim_case, bg="#2C3E50")
+liste_coups = []
 
 def matchmaking():
     """fonction qui choisit aléatoirement quel joueur commence"""
@@ -58,6 +59,7 @@ def interagir_jeu(event):
         for i in range(lignes - 1, -1, -1):
             if grille[i][colonne] is None:
                 grille[i][colonne] = joueur_actuel
+                liste_coups.append([i, colonne, joueur_actuel])
                 afficher_grille()
                 if verifier_victoire(i, colonne):
                     fenetre_congrats(joueur_actuel)
@@ -127,6 +129,19 @@ def verifier_victoire(ligne, colonne):
         return True
     return False
 
+def utiliser_joker(event):
+    """Cette fonction permet de lorsque nous faisons un clic droit annuler le coup de l'autre joueur"""
+    global grille, liste_coups, joueurs
+    if joueur_actuel["Joker"]:
+        grille[liste_coups[-1][0]][liste_coups[-1][1]] = None
+        afficher_grille()
+        liste_coups.pop(-1)
+        if joueurs[0] == joueur_actuel:
+            joueurs[0]["Joker"] = False
+        else:
+            joueurs[1]["Joker"] = False
+    else:
+        return
 
 def fenetre_congrats(joueur):#ici aussi, on doit restyliser
     """affiche une fenetre de victoire lorsqu'un joueur gagne""" 
@@ -170,6 +185,7 @@ def recommencer(fenetre):
     jeu_actif = True
     grille = [[None] * colonnes for _ in range(lignes)]
     joueur_actuel = matchmaking()
+    joueurs[0]["Joker"], joueurs[1]["Joker"] = True, True
     if fenetre!=root:
         fenetre.destroy()
     afficher_grille()
@@ -249,4 +265,5 @@ bouton_nouveau.grid(row=0, column=0, padx=5)
 canvas.pack()
 afficher_grille()
 canvas.bind("<Button-1>", interagir_jeu)
+canvas.bind("<Button-3>", utiliser_joker)
 root.mainloop()
