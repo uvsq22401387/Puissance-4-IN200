@@ -19,25 +19,35 @@ liste_coups = []
 
 
 def demander_dimensions():
-    
     global lignes, colonnes
-    try:
-        lignes_input = simpledialog.askstring("Configuration", "Nombre de lignes (max 10) :", parent=root)
-        colonnes_input = simpledialog.askstring("Configuration", "Nombre de colonnes (max 10) :", parent=root)
 
-        if lignes_input:
-            lignes = int(lignes_input)
-            if lignes > 10 or lignes < 1:
-                raise ValueError
-        if colonnes_input:
-            colonnes = int(colonnes_input)
-            if colonnes > 10 or colonnes < 1:
-                raise ValueError
-    except:
-        messagebox.showwarning("Valeurs incorrectes", "Valeurs invalides ou dépassant 10. Dimensions par défaut : 6 x 7.")
+    lignes_input = simpledialog.askstring("Configuration", "Nombre de lignes (max 10) :", parent=root)
+    colonnes_input = simpledialog.askstring("Configuration", "Nombre de colonnes (max 10) :", parent=root)
+
+    if lignes_input and lignes_input.isdigit():
+        l = int(lignes_input)
+        if 1 <= l <= 10:
+            lignes = l
+        else:
+            print("Nombre de lignes invalide. Valeur par défaut 6 utilisée.")
+            lignes = 6
+    else:
+        print("Entrée vide ou non numérique pour les lignes. Valeur par défaut 6 utilisée.")
         lignes = 6
+
+    if colonnes_input and colonnes_input.isdigit():
+        c = int(colonnes_input)
+        if 1 <= c <= 10:
+            colonnes = c
+        else:
+            print("Nombre de colonnes invalide. Valeur par défaut 7 utilisée.")
+            colonnes = 7
+    else:
+        print("Entrée vide ou non numérique pour les colonnes. Valeur par défaut 7 utilisée.")
         colonnes = 7
-   
+
+
+
 def matchmaking():
     """fonction qui choisit aléatoirement quel joueur commence"""
     joueur_actuel = rd.choice(joueurs)
