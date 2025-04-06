@@ -19,15 +19,16 @@ liste_coups = []
 
 
 def demander_dimensions():
+    """fonction qui permet au joueur de choisir les dimensions de la grille"""
     global lignes, colonnes
 
     lignes_input = simpledialog.askstring("Configuration", "Nombre de lignes (max 10) :", parent=root)
     colonnes_input = simpledialog.askstring("Configuration", "Nombre de colonnes (max 10) :", parent=root)
 
     if lignes_input and lignes_input.isdigit():
-        l = int(lignes_input)
-        if 1 <= l <= 10:
-            lignes = l
+        nb_lignes = int(lignes_input)
+        if 1 <= nb_lignes <= 10:
+            lignes = nb_lignes
         else:
             print("Nombre de lignes invalide. Valeur par défaut 6 utilisée.")
             lignes = 6
@@ -36,9 +37,9 @@ def demander_dimensions():
         lignes = 6
 
     if colonnes_input and colonnes_input.isdigit():
-        c = int(colonnes_input)
-        if 1 <= c <= 10:
-            colonnes = c
+        nb_colonnes = int(colonnes_input)
+        if 1 <= nb_colonnes <= 10:
+            colonnes = nb_colonnes
         else:
             print("Nombre de colonnes invalide. Valeur par défaut 7 utilisée.")
             colonnes = 7
@@ -259,7 +260,7 @@ def charger():
     elif int(joueur_actuel_sauvegarde)==1:
         joueur_actuel=joueurs[1]
 
-    grille_sv=[["#"]*colonnes for i in range(lignes)] 
+    grille_sv=[["#"]*colonnes for i in range(lignes)]
     cpt=0
     i=1
     while i<len(li):
