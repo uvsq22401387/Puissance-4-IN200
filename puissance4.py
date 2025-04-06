@@ -17,6 +17,27 @@ joueurs = [
 canvas = tk.Canvas(root, width=colonnes * dim_case, height=lignes * dim_case, bg="#2C3E50")
 liste_coups = []
 
+
+def demander_dimensions():
+    
+    global lignes, colonnes
+    try:
+        lignes_input = simpledialog.askstring("Configuration", "Nombre de lignes (max 10) :", parent=root)
+        colonnes_input = simpledialog.askstring("Configuration", "Nombre de colonnes (max 10) :", parent=root)
+
+        if lignes_input:
+            lignes = int(lignes_input)
+            if lignes > 10 or lignes < 1:
+                raise ValueError
+        if colonnes_input:
+            colonnes = int(colonnes_input)
+            if colonnes > 10 or colonnes < 1:
+                raise ValueError
+    except:
+        messagebox.showwarning("Valeurs incorrectes", "Valeurs invalides ou dépassant 10. Dimensions par défaut : 6 x 7.")
+        lignes = 6
+        colonnes = 7
+   
 def matchmaking():
     """fonction qui choisit aléatoirement quel joueur commence"""
     joueur_actuel = rd.choice(joueurs)
@@ -260,6 +281,9 @@ bouton_sauvegarder.grid(row=0, column=2, padx=5)
 bouton_nouveau = tk.Button(button_frame, text="Nouvelle Partie", command=lambda: recommencer(root))
 bouton_nouveau.grid(row=0, column=0, padx=5)
 
+
+# Demander à l'utilisateur les dimensions avant de lancer le jeu
+demander_dimensions()
 
 #crée la fenêtre 
 canvas.pack()
