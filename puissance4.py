@@ -251,12 +251,15 @@ def mise_a_jour_score(gagnant):
     if scores[gagnant["nom"]] >= score_max:
         messagebox.showinfo("Partie terminée", f"{gagnant['nom']} a gagné la partie ! 🎉")
         reset_scores()
+def reset_scores():
+    scores["Joueur 1"] = 0
+    scores["Joueur 2"] = 0
 
 def fenetre_congrats(joueur):#ici aussi, on doit restyliser
     """affiche une fenetre de victoire lorsqu'un joueur gagne""" 
     global jeu_actif
     jeu_actif = False
-    
+    mise_a_jour_score(joueur)
     fenetre2 = tk.Toplevel(root)
     fenetre2.title("Victoire !")
     message_victoire = joueur["nom"] + " a gagné !"
