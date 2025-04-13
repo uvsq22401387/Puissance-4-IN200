@@ -17,33 +17,8 @@ joueurs = [
 canvas = tk.Canvas(root, width=colonnes * dim_case, height=lignes * dim_case, bg="#2C3E50")
 liste_coups = []
 
-
 def demander_dimensions():
     """Demande à l'utilisateur les dimensions de la grille"""
-    def valider_dimensions():
-        global lignes, colonnes, grille
-        lignes_str = entry_lignes.get()
-        colonnes_str = entry_colonnes.get()
-
-        if not lignes_str.isdigit() or not colonnes_str.isdigit():
-            messagebox.showerror("Erreur", "Veuillez entrer des nombres valides.")
-        else:
-            lignes_input = int(lignes_str)
-            colonnes_input = int(colonnes_str)
-            if lignes_input < 4 or colonnes_input < 4:
-                messagebox.showerror("Erreur", "Les dimensions doivent être supérieures ou égales à 4.")
-            else:
-                lignes = lignes_input
-                colonnes = colonnes_input
-                grille = [[None] * colonnes for _ in range(lignes)]
-                fenetre_dimensions.destroy()
-                recommencer(root)
-
-
-                canvas.config(width=colonnes * dim_case, height=lignes * dim_case)
-                fenetre_dimensions.destroy()
-                recommencer(root)
-
                 
     fenetre_dimensions = tk.Toplevel(root)
     fenetre_dimensions.title("Choisir les dimensions")
@@ -56,8 +31,47 @@ def demander_dimensions():
     label_colonnes.pack()
     entry_colonnes = tk.Entry(fenetre_dimensions)
     entry_colonnes.pack()
+
+    def valider_dimensions():
+        """vérifie que les valeurs données soient valides"""
+        global lignes, colonnes, grille
+        lignes_str = entry_lignes.get()
+        colonnes_str = entry_colonnes.get()
+        if not (lignes_str.isdigit() and colonnes_str.isdigit()):
+            messagebox.showerror("Erreur", "Veuillez entrer des nombres valides.")
+        else:
+            lignes_input = int(lignes_str)
+            colonnes_input = int(colonnes_str)
+            if lignes_input < 4 or colonnes_input < 4:
+                messagebox.showerror("Erreur", "Les dimensions doivent être supérieures ou égales à 4.")
+            else:
+                lignes = lignes_input
+                colonnes = colonnes_input
+                grille = [[None] * colonnes for _ in range(lignes)]
+                fenetre_dimensions.destroy()
+                recommencer(root)
+                canvas.config(width=colonnes * dim_case, height=lignes * dim_case)
+                fenetre_dimensions.destroy()
+                recommencer(root)
+        '''ajout des boutons à la fenêtre principale'''
+        button_frame = tk.Frame(root)
+        button_frame.pack()
+        bouton_sauvegarder = tk.Button(button_frame, text="Sauvegarder", command=sauvegarder)
+        bouton_sauvegarder.grid(row=0, column=1, padx=5)
+        bouton_sauvegarder = tk.Button(button_frame, text="Charger", command=charger)
+        bouton_sauvegarder.grid(row=0, column=2, padx=5)
+        bouton_nouveau = tk.Button(button_frame, text="Nouvelle Partie", command=lambda: recommencer(root))
+        bouton_nouveau.grid(row=0, column=0, padx=5)
+        """affche la grille"""
+        canvas.pack()
+        afficher_grille()
+        canvas.bind("<Button-1>", interagir_jeu)
+        canvas.bind("<Button-3>", utiliser_joker)
+            
     bouton_valider = tk.Button(fenetre_dimensions, text="Valider", command=valider_dimensions)
     bouton_valider.pack()
+
+    
 
 
 def matchmaking():
@@ -293,23 +307,8 @@ def charger():
     afficher_grille()
     tk.messagebox.showinfo("Partie chargée !",f"Le joueur actuel est {joueur_actuel['nom']}.")
 
-'''ajout des boutons à la fenêtre principale'''
-button_frame = tk.Frame(root)
-button_frame.pack()
-bouton_sauvegarder = tk.Button(button_frame, text="Sauvegarder", command=sauvegarder)
-bouton_sauvegarder.grid(row=0, column=1, padx=5)
-bouton_sauvegarder = tk.Button(button_frame, text="Charger", command=charger)
-bouton_sauvegarder.grid(row=0, column=2, padx=5)
-bouton_nouveau = tk.Button(button_frame, text="Nouvelle Partie", command=lambda: recommencer(root))
-bouton_nouveau.grid(row=0, column=0, padx=5)
-
-
 # Demander à l'utilisateur les dimensions avant de lancer le jeu
 demander_dimensions()
 
 #crée la fenêtre 
-canvas.pack()
-afficher_grille()
-canvas.bind("<Button-1>", interagir_jeu)
-canvas.bind("<Button-3>", utiliser_joker)
 root.mainloop()
