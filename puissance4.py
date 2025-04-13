@@ -18,6 +18,9 @@ joueurs = [
 canvas = tk.Canvas(root, width=colonnes * dim_case, height=lignes * dim_case, bg="#2C3E50")
 liste_coups = []
 
+timer_label = tk.Label(root, text="Temps : 10s", font=("Helvetica", 14), fg="white", bg="#2C3E50")
+timer_label.pack(pady=10)
+
 def demander_couleur(joueur, autre_joueur=None):
     """Demande une couleur pour un joueur avec vérification"""
 
