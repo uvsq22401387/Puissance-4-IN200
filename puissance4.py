@@ -17,6 +17,24 @@ joueurs = [
 canvas = tk.Canvas(root, width=colonnes * dim_case, height=lignes * dim_case, bg="#2C3E50")
 liste_coups = []
 
+def demander_couleur(joueur, autre_joueur=None):
+    """Demande une couleur pour un joueur avec vérification"""
+
+    couleur = colorchooser.askcolor(title=f"Choisissez la couleur de {joueur['nom']}")[1]
+
+    if couleur is None:
+        messagebox.showwarning("Choix annulé", "Vous devez choisir une couleur.")
+        return demander_couleur(joueur, autre_joueur)
+
+    if autre_joueur and couleur == autre_joueur.get("couleur"):
+        messagebox.showerror("Erreur", "Les deux joueurs ne peuvent pas avoir la même couleur.")
+        return demander_couleur(joueur, autre_joueur)
+
+    joueur["couleur"] = couleur
+
+demander_couleur(joueurs[0])
+demander_couleur(joueurs[1], autre_joueur=joueurs[0])
+
 def demander_dimensions():
     """Demande à l'utilisateur les dimensions de la grille"""
                 
