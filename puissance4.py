@@ -93,7 +93,19 @@ def demander_dimensions():
     bouton_valider = tk.Button(fenetre_dimensions, text="Valider", command=valider_dimensions)
     bouton_valider.pack()
 
-    
+def lancer_timer():
+    global temps
+    if not jeu_actif:
+        return
+    if temps > 0:
+        timer_label.config(text=f"Temps : {temps}s")
+        temps -= 1
+        root.after(1000, lancer_timer)
+    else:
+        messagebox.showinfo("Temps écoulé", f"{joueur_actuel['nom']} a perdu son tour !")
+        selection_joueur()
+        afficher_grille()
+        reset_timer()
 
 
 def matchmaking():
