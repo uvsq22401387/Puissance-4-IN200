@@ -239,6 +239,19 @@ def utiliser_joker(event):
     else:
         return
 
+scores = {
+    "Joueur 1": 0,
+    "Joueur 2": 0
+}
+score_max = 3
+def mise_a_jour_score(gagnant):
+    scores[gagnant["nom"]] += 1
+    messagebox.showinfo("Score", f"{gagnant['nom']} a {scores[gagnant['nom']]} point(s)")
+
+    if scores[gagnant["nom"]] >= score_max:
+        messagebox.showinfo("Partie terminée", f"{gagnant['nom']} a gagné la partie ! 🎉")
+        reset_scores()
+
 def fenetre_congrats(joueur):#ici aussi, on doit restyliser
     """affiche une fenetre de victoire lorsqu'un joueur gagne""" 
     global jeu_actif
