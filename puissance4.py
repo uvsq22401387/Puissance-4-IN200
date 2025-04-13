@@ -18,6 +18,7 @@ joueurs = [
 canvas = tk.Canvas(root, width=colonnes * dim_case, height=lignes * dim_case, bg="#2C3E50")
 liste_coups = []
 
+temps=10
 timer_label = tk.Label(root, text="Temps : 10s", font=("Helvetica", 14), fg="white", bg="#2C3E50")
 timer_label.pack(pady=10)
 
@@ -106,6 +107,10 @@ def lancer_timer():
         selection_joueur()
         afficher_grille()
         reset_timer()
+def reset_timer():
+    global temps
+    temps = 10
+    lancer_timer()
 
 
 def matchmaking():
