@@ -19,34 +19,45 @@ liste_coups = []
 
 
 def demander_dimensions():
-    """fonction qui permet au joueur de choisir les dimensions de la grille"""
-    global lignes, colonnes
+    """Demande à l'utilisateur les dimensions de la grille"""
+    def valider_dimensions():
+        global lignes, colonnes, grille
+        lignes_str = entry_lignes.get()
+        colonnes_str = entry_colonnes.get()
 
-    lignes_input = simpledialog.askstring("Configuration", "Nombre de lignes (max 10) :", parent=root)
-    colonnes_input = simpledialog.askstring("Configuration", "Nombre de colonnes (max 10) :", parent=root)
-
-    if lignes_input and lignes_input.isdigit():
-        nb_lignes = int(lignes_input)
-        if 1 <= nb_lignes <= 10:
-            lignes = nb_lignes
+        if not lignes_str.isdigit() or not colonnes_str.isdigit():
+            messagebox.showerror("Erreur", "Veuillez entrer des nombres valides.")
         else:
-            print("Nombre de lignes invalide. Valeur par défaut 6 utilisée.")
-            lignes = 6
-    else:
-        print("Entrée vide ou non numérique pour les lignes. Valeur par défaut 6 utilisée.")
-        lignes = 6
+            lignes_input = int(lignes_str)
+            colonnes_input = int(colonnes_str)
+            if lignes_input < 4 or colonnes_input < 4:
+                messagebox.showerror("Erreur", "Les dimensions doivent être supérieures ou égales à 4.")
+            else:
+                lignes = lignes_input
+                colonnes = colonnes_input
+                grille = [[None] * colonnes for _ in range(lignes)]
+                fenetre_dimensions.destroy()
+                recommencer(root)
 
-    if colonnes_input and colonnes_input.isdigit():
-        nb_colonnes = int(colonnes_input)
-        if 1 <= nb_colonnes <= 10:
-            colonnes = nb_colonnes
-        else:
-            print("Nombre de colonnes invalide. Valeur par défaut 7 utilisée.")
-            colonnes = 7
-    else:
-        print("Entrée vide ou non numérique pour les colonnes. Valeur par défaut 7 utilisée.")
-        colonnes = 7
 
+                canvas.config(width=colonnes * dim_case, height=lignes * dim_case)
+                fenetre_dimensions.destroy()
+                recommencer(root)
+
+                
+    fenetre_dimensions = tk.Toplevel(root)
+    fenetre_dimensions.title("Choisir les dimensions")
+
+    label_lignes = tk.Label(fenetre_dimensions, text="Nombre de lignes (min 4):")
+    label_lignes.pack()
+    entry_lignes = tk.Entry(fenetre_dimensions)
+    entry_lignes.pack()
+    label_colonnes = tk.Label(fenetre_dimensions, text="Nombre de colonnes (min 4):")
+    label_colonnes.pack()
+    entry_colonnes = tk.Entry(fenetre_dimensions)
+    entry_colonnes.pack()
+    bouton_valider = tk.Button(fenetre_dimensions, text="Valider", command=valider_dimensions)
+    bouton_valider.pack()
 
 
 def matchmaking():
