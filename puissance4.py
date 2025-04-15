@@ -258,19 +258,11 @@ def charger():
         cpt += 1
     grille=grille_sv
     fichier.close()
-
-    if canvas is not None:
-        canvas.destroy()
-    canvas = tk.Canvas(canvas_frame, width=colonnes * dim_case, height=lignes * dim_case, bg="#2C3E50")
-    canvas.pack()
-    canvas.bind("<Button-1>", interagir_jeu)
-    canvas.bind("<Button-3>", utiliser_joker)
-    
-    afficher_grille()
     tk.messagebox.showinfo("Partie chargée !",f"Le joueur actuel est {joueur_actuel['nom']}.")
+    return grille, joueurs, joueur_actuel, lignes, colonnes
 
 
-def lancer_jeu():
+def lancer_jeu(charger_partie=False):
     global lignes
     global colonnes
     global joueur_actuel
@@ -278,19 +270,22 @@ def lancer_jeu():
     global canvas
     global canvas_frame
     
-    if not entree_lignes.get().isdigit() or not entree_colonnes.get().isdigit():
-        lignes = 6
-        colonnes = 7
+    if charger_partie:
+        charger()
     else:
-        lignes = int(entree_lignes.get())
-        colonnes = int(entree_colonnes.get())
-    joueurs[0]["nom"] = entree_nom_joueur1.get()
-    joueurs[1]["nom"] = entree_nom_joueur2.get()
-    joueur_actuel = matchmaking()
-    grille[:] = [[None for _ in range(colonnes)] for _ in range(lignes)]
+        if not entree_lignes.get().isdigit() or not entree_colonnes.get().isdigit():
+            lignes = 6
+            colonnes = 7
+        else:
+            lignes = int(entree_lignes.get())
+            colonnes = int(entree_colonnes.get())
+        joueurs[0]["nom"] = entree_nom_joueur1.get()
+        joueurs[1]["nom"] = entree_nom_joueur2.get()
+        joueur_actuel = matchmaking()
+        grille[:] = [[None for _ in range(colonnes)] for _ in range(lignes)]
+
     fenetre_jeu = tk.Toplevel()
     fenetre_jeu.title("Puissance 4")
-
     canvas_frame = tk.Frame(fenetre_jeu)
     canvas_frame.pack()
     canvas = tk.Canvas(canvas_frame, width=colonnes * dim_case, height=lignes * dim_case, bg="#2C3E50")
@@ -337,7 +332,7 @@ bouton_color_j2.pack(side="left", padx=10)
 frame_boutons = tk.Frame(root)
 frame_boutons.pack(pady=10)
 
-tk.Button(frame_boutons, text="Nouvelle Partie", command=lancer_jeu).grid(row=0, column=0, padx=5)
-tk.Button(frame_boutons, text="Charger Partie", command=charger).grid(row=0, column=1, padx=5)
+tk.Button(frame_boutons, text="Nouvelle Partie", command=lambda: lancer_jeu(charger_partie=False)).grid(row=0, column=0, padx=5)
+tk.Button(frame_boutons, text="Charger Partie", command=lambda: lancer_jeu(charger_partie=True)).grid(row=0, column=1, padx=5)
 
 root.mainloop()
