@@ -1,7 +1,8 @@
 import tkinter as tk
 import random as rd
 from tkinter import *
-import colorchooser, messagebox
+from tkinter import colorchooser
+from tkinter import messagebox
 
 root = tk.Tk()
 root.title("Puissance 4")
