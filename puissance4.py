@@ -281,12 +281,12 @@ def lancer_jeu():
 root = tk.Tk()
 root.title("Configuration Puissance 4")
 
-tk.Label(root, text="Nombre de lignes :")
+tk.Label(root, text="Nombre de lignes :").pack()
 entree_lignes = tk.Entry(root)
 entree_lignes.insert(0, "6")
 entree_lignes.pack()
 
-tk.Label(root, text="Nombre de colonnes :")
+tk.Label(root, text="Nombre de colonnes :").pack()
 entree_colonnes = tk.Entry(root)
 entree_colonnes.insert(0, "7")
 entree_colonnes.pack()
