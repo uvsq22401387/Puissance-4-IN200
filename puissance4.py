@@ -260,13 +260,8 @@ def lancer_jeu():
     if not entree_lignes.get().isdigit() or not entree_colonnes.get().isdigit():
         messagebox.showerror("Erreur", "Les dimensions doivent être des nombres entiers positifs.")
         return
-<<<<<<< HEAD
     lignes = int(entree_lignes.get())
     colonnes = int(entree_colonnes.get())
-=======
-    lignes = int(entry_lignes.get())
-    colonnes = int(entry_colonnes.get())
->>>>>>> ccb88354c37f1c28ef87b818f644205930727185
     joueur_actuel = matchmaking()
     grille[:] = [[None for _ in range(colonnes)] for _ in range(lignes)]
     fenetre_jeu = tk.Toplevel()
