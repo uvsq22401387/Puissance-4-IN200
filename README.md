@@ -22,7 +22,7 @@ Le projet consiste en la réalisation d'un jeu de Puissance 4 en Python
 - [x] Fenêtre de victoire annonçant le gagnant.
 - [x] Fenêtre de match nul.
 - [x] Possibilité de recommencer une partie après une victoire.
-- [ ] Joker pendant une partie - annuler un coup joué (En cours de développement)
+- [x] Joker pendant une partie - annuler un coup joué (En cours de développement)
 - [x] Timer : temps de jeu limité
 
 ## Aperçu du jeu
