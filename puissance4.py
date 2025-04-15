@@ -155,7 +155,6 @@ def fenetre_congrats(joueur):#ici aussi, on doit restyliser
     message_victoire = joueur["nom"] + " a gagné !"
     tk.Label(fenetre2, text=message_victoire,font=("Comic Sans MS", 16), fg=joueur["couleur"]).pack()
     tk.Button(fenetre2, text="Recommencer", command=lambda: recommencer(fenetre2)).pack()
-    bouton_recommencer.grid(column=0, row=1, padx=10, pady=10)
     tk.Button(fenetre2, text="Fermer", command=root.destroy).pack()  #enft, fallait passer fenetre2 comme argument
 
 def match_nul():#la fonction marche, mais c'est pas beau dutout...
