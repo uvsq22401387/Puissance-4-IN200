@@ -14,8 +14,13 @@ grille = [[None] * colonnes for _ in range(lignes)]
 joueurs = [
     {"nom": "Joueur 1", "couleur": "red", "Joker": True},
     {"nom": "Joueur 2", "couleur": "yellow", "Joker": True}]
-canvas = tk.Canvas(root, width=colonnes * dim_case, height=lignes * dim_case, bg="#2C3E50")
 liste_coups = []
+
+def choisir_couleur(joueur_index, bouton):
+    couleur = colorchooser.askcolor(title="Choisir une couleur")[1]
+    if couleur:
+        joueurs[joueur_index]["couleur"] = couleur
+        bouton.config(bg=couleur)
 
 def matchmaking():
     """fonction qui choisit aléatoirement quel joueur commence"""
@@ -246,6 +251,10 @@ def charger():
     
     afficher_grille()
     tk.messagebox.showinfo("Partie chargée !",f"Le joueur actuel est {joueur_actuel['nom']}.")
+
+
+def lancer_jeu():
+    pass
 
 '''ajout des boutons à la fenêtre principale'''
 button_frame = tk.Frame(root)
