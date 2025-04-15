@@ -290,7 +290,8 @@ tk.Label(root, text="Nombre de colonnes :")
 entree_colonnes = tk.Entry(root)
 entree_colonnes.insert(0, "7")
 entree_colonnes.pack()
-
+#ajoute de nom des joeurs a faire par ghofrane et adpatation de la fenetre congrats par ghofrane
+#anis doit adapter la fonction sauvagarde et charger
 frame_couleurs = tk.Frame(root).pack(pady=5)
 
 bouton_color_j1 = tk.Button(frame_couleurs, text="Couleur Joueur 1", bg=joueurs[0]["couleur"], command=lambda: choisir_couleur(0, bouton_color_j1))
