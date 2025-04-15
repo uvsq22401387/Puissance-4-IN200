@@ -254,22 +254,52 @@ def charger():
 
 
 def lancer_jeu():
-    pass
+    if not entry_lignes.get().isdigit() or not entry_colonnes.get().isdigit():
+        messagebox.showerror("Erreur", "Les dimensions doivent être des nombres entiers positifs.")
+        return
+    lignes = int(entry_lignes.get())
+    colonnes = int(entry_colonnes.get()
+    joueur_actuel = matchmaking()
+    grille[:] = [[None for _ in range(colonnes)] for _ in range(lignes)]
+    fenetre_jeu = tk.Toplevel()
+    fenetre_jeu.title("Puissance 4")
+
+    canvas_frame = tk.Frame(fenetre_jeu)
+    canvas_frame.pack()
+    canvas = tk.Canvas(canvas_frame, width=colonnes * dim_case, height=lignes * dim_case, bg="#2C3E50")
+    canvas.pack()
+    canvas.bind("<Button-1>", interagir_jeu)
+    canvas.bind("<Button-3>", utiliser_joker)
+    afficher_grille()
+
+    bouton_sauvegarde = tk.Button(fenetre_jeu, text="Sauvegarder", command=sauvegarder)
+    bouton_sauvegarde.pack(pady=5)
 
 '''ajout des boutons à la fenêtre principale'''
-button_frame = tk.Frame(root)
-button_frame.pack()
-bouton_sauvegarder = tk.Button(button_frame, text="Sauvegarder", command=sauvegarder)
-bouton_sauvegarder.grid(row=0, column=1, padx=5)
-bouton_sauvegarder = tk.Button(button_frame, text="Charger", command=charger)
-bouton_sauvegarder.grid(row=0, column=2, padx=5)
-bouton_nouveau = tk.Button(button_frame, text="Nouvelle Partie", command=lambda: recommencer(root))
-bouton_nouveau.grid(row=0, column=0, padx=5)
+root = tk.Tk()
+root.title("Configuration Puissance 4")
 
+tk.Label(root, text="Nombre de lignes :").pack()
+entry_lignes = tk.Entry(root)
+entry_lignes.insert(0, "6")
+entry_lignes.pack()
 
-#crée la fenêtre 
-canvas.pack()
-afficher_grille()
-canvas.bind("<Button-1>", interagir_jeu)
-canvas.bind("<Button-3>", utiliser_joker)
+tk.Label(root, text="Nombre de colonnes :").pack()
+entry_colonnes = tk.Entry(root)
+entry_colonnes.insert(0, "7").pack()
+
+frame_couleurs = tk.Frame(root).pack(pady=5)
+
+bouton_color_j1 = tk.Button(frame_couleurs, text="Couleur Joueur 1", bg=joueurs[0]["couleur"], command=lambda: choisir_couleur(0, btn_couleur_j1))
+bouton_color_j1.pack(side="left", padx=10)
+
+bouton_color_j2 = tk.Button(frame_couleurs, text="Couleur Joueur 2", bg=joueurs[1]["couleur"], command=lambda: choisir_couleur(1, btn_couleur_j2))
+bouton_color_j2.pack(side="left", padx=10)
+
+frame_boutons = tk.Frame(root)
+frame_boutons.pack(pady=10)
+
+tk.Button(frame_boutons, text="Nouvelle Partie", command=lancer_jeu).grid(row=0, column=0, padx=5)
+tk.Button(frame_boutons, text="Charger Partie", command=charger).grid(row=0, column=1, padx=5)
+
 root.mainloop()
