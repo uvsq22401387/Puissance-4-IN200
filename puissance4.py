@@ -1,6 +1,6 @@
 import tkinter as tk
 import random as rd
-from tkinter import *
+from tkinter import colorchooser, messagebox
 
 # Variables globales
 jeu_actif = True
@@ -196,10 +196,16 @@ def sauvegarder():
     couleur_j0=joueurs[0]["couleur"]
     couleur_j1=joueurs[1]["couleur"]
 
-    if joueur_actuel == joueurs[0]:
+    if joueur_actuel==joueurs[0]:
         fichier.write("0\n")
     else:
         fichier.write("1\n")
+
+    fichier.write(f"{joueurs[0]['nom']}-{joueurs[0]['couleur']}\n")
+    fichier.write(f"{joueurs[1]['nom']}-{joueurs[1]['couleur']}\n")
+
+    fichier.write(f"{lignes}x{colonnes}\n")
+
     for i in grille:
             for j in i:
                 if j is None:
@@ -218,7 +224,6 @@ def charger():
     global jeu_actif
     fichier=open("savegame/savegame.txt", "r")
     li=fichier.readlines()
-    fichier.close()
 
     joueur_actuel_sauvegarde=li[0].strip()
     if int(joueur_actuel_sauvegarde)==0:
@@ -226,24 +231,40 @@ def charger():
     elif int(joueur_actuel_sauvegarde)==1:
         joueur_actuel=joueurs[1]
 
-    grille_sv=[["#"]*colonnes for i in range(lignes)] 
-    cpt=0
-    i=1
-    while i<len(li):
-        ligne_save=li[i].strip()
-        len_l=len(ligne_save)
-        j=0
-        while j<len_l:
-            if ligne_save[j]=="0":
-                grille_sv[cpt][j]=joueurs[0]
-            elif ligne_save[j]=="1":
-                grille_sv[cpt][j]=joueurs[1]
-            elif ligne_save[j]=="#":
-                grille_sv[cpt][j]=None
-            j+= 1
-        cpt+= 1
-        i+= 1
+    ligne_joueur_0=li[1].strip().split("-")
+    ligne_joueur_1=li[2].strip().split("-")
+    joueurs[0]["nom"]=ligne_joueur_0[0]
+    joueurs[0]["couleur"]=ligne_joueur_0[1]
+    joueurs[1]["nom"]=ligne_joueur_1[0]
+    joueurs[1]["couleur"]=ligne_joueur_1[1]
+
+    dimensions=li[3].strip().split("x")
+    lignes=int(dimensions[0])
+    colonnes=int(dimensions[1])
+
+    grille_sv = [["#" for _ in range(colonnes)] for _ in range(lignes)]
+    cpt = 0
+    while cpt < lignes:
+        ligne_save = li[4 + cpt].strip()
+        j = 0
+        while j < colonnes:
+            if ligne_save[j] == "0":
+                grille_sv[cpt][j] = joueurs[0]
+            elif ligne_save[j] == "1":
+                grille_sv[cpt][j] = joueurs[1]
+            elif ligne_save[j] == "#":
+                grille_sv[cpt][j] = None
+            j += 1
+        cpt += 1
     grille=grille_sv
+    fichier.close()
+
+    if canvas is not None:
+        canvas.destroy()
+    canvas = tk.Canvas(canvas_frame, width=colonnes * dim_case, height=lignes * dim_case, bg="#2C3E50")
+    canvas.pack()
+    canvas.bind("<Button-1>", interagir_jeu)
+    canvas.bind("<Button-3>", utiliser_joker)
     
     afficher_grille()
     tk.messagebox.showinfo("Partie chargée !",f"Le joueur actuel est {joueur_actuel['nom']}.")
@@ -255,6 +276,7 @@ def lancer_jeu():
     global joueur_actuel
     global grille
     global canvas
+    global canvas_frame
     
     if not entree_lignes.get().isdigit() or not entree_colonnes.get().isdigit():
         lignes = 6
