@@ -1,8 +1,6 @@
 import tkinter as tk
 import random as rd
 from tkinter import *
-from tkinter import colorchooser
-from tkinter import messagebox
 
 root = tk.Tk()
 root.title("Puissance 4")
@@ -18,101 +16,6 @@ joueurs = [
     {"nom": "Joueur 2", "couleur": "yellow", "Joker": True}]
 canvas = tk.Canvas(root, width=colonnes * dim_case, height=lignes * dim_case, bg="#2C3E50")
 liste_coups = []
-
-temps=10
-timer_label = tk.Label(root, text="Temps : 10s", font=("Helvetica", 14), fg="white", bg="#2C3E50")
-timer_label.pack(pady=10)
-
-def demander_couleur(joueur, autre_joueur=None):
-    """Demande une couleur pour un joueur avec vérification"""
-
-    couleur = colorchooser.askcolor(title=f"Choisissez la couleur de {joueur['nom']}")[1]
-
-    if couleur is None:
-        messagebox.showwarning("Choix annulé", "Vous devez choisir une couleur.")
-        return demander_couleur(joueur, autre_joueur)
-
-    if autre_joueur and couleur == autre_joueur.get("couleur"):
-        messagebox.showerror("Erreur", "Les deux joueurs ne peuvent pas avoir la même couleur.")
-        return demander_couleur(joueur, autre_joueur)
-
-    joueur["couleur"] = couleur
-
-demander_couleur(joueurs[0])
-demander_couleur(joueurs[1], autre_joueur=joueurs[0])
-
-def demander_dimensions():
-    """Demande à l'utilisateur les dimensions de la grille"""
-                
-    fenetre_dimensions = tk.Toplevel(root)
-    fenetre_dimensions.title("Choisir les dimensions")
-
-    label_lignes = tk.Label(fenetre_dimensions, text="Nombre de lignes (min 4):")
-    label_lignes.pack()
-    entry_lignes = tk.Entry(fenetre_dimensions)
-    entry_lignes.pack()
-    label_colonnes = tk.Label(fenetre_dimensions, text="Nombre de colonnes (min 4):")
-    label_colonnes.pack()
-    entry_colonnes = tk.Entry(fenetre_dimensions)
-    entry_colonnes.pack()
-
-    def valider_dimensions():
-        """vérifie que les valeurs données soient valides"""
-        global lignes, colonnes, grille
-        lignes_str = entry_lignes.get()
-        colonnes_str = entry_colonnes.get()
-        if not (lignes_str.isdigit() and colonnes_str.isdigit()):
-            messagebox.showerror("Erreur", "Veuillez entrer des nombres valides.")
-        else:
-            lignes_input = int(lignes_str)
-            colonnes_input = int(colonnes_str)
-            if lignes_input < 4 or colonnes_input < 4:
-                messagebox.showerror("Erreur", "Les dimensions doivent être supérieures ou égales à 4.")
-            else:
-                lignes = lignes_input
-                colonnes = colonnes_input
-                grille = [[None] * colonnes for _ in range(lignes)]
-                fenetre_dimensions.destroy()
-                recommencer(root)
-                canvas.config(width=colonnes * dim_case, height=lignes * dim_case)
-                fenetre_dimensions.destroy()
-                recommencer(root)
-        '''ajout des boutons à la fenêtre principale'''
-        button_frame = tk.Frame(root)
-        button_frame.pack()
-        bouton_sauvegarder = tk.Button(button_frame, text="Sauvegarder", command=sauvegarder)
-        bouton_sauvegarder.grid(row=0, column=1, padx=5)
-        bouton_sauvegarder = tk.Button(button_frame, text="Charger", command=charger)
-        bouton_sauvegarder.grid(row=0, column=2, padx=5)
-        bouton_nouveau = tk.Button(button_frame, text="Nouvelle Partie", command=lambda: recommencer(root))
-        bouton_nouveau.grid(row=0, column=0, padx=5)
-        """affche la grille"""
-        canvas.pack()
-        afficher_grille()
-        canvas.bind("<Button-1>", interagir_jeu)
-        canvas.bind("<Button-3>", utiliser_joker)
-            
-    bouton_valider = tk.Button(fenetre_dimensions, text="Valider", command=valider_dimensions)
-    bouton_valider.pack()
-
-def lancer_timer():
-    global temps
-    if not jeu_actif:
-        return
-    if temps > 0:
-        timer_label.config(text=f"Temps : {temps}s")
-        temps -= 1
-        root.after(1000, lancer_timer)
-    else:
-        messagebox.showinfo("Temps écoulé", f"{joueur_actuel['nom']} a perdu son tour !")
-        selection_joueur()
-        afficher_grille()
-        reset_timer()
-def reset_timer():
-    global temps
-    temps = 10
-    lancer_timer()
-
 
 def matchmaking():
     """fonction qui choisit aléatoirement quel joueur commence"""
@@ -240,27 +143,11 @@ def utiliser_joker(event):
     else:
         return
 
-scores = {
-    "Joueur 1": 0,
-    "Joueur 2": 0
-}
-score_max = 3
-def mise_a_jour_score(gagnant):
-    scores[gagnant["nom"]] += 1
-    messagebox.showinfo("Score", f"{gagnant['nom']} a {scores[gagnant['nom']]} point(s)")
-
-    if scores[gagnant["nom"]] >= score_max:
-        messagebox.showinfo("Partie terminée", f"{gagnant['nom']} a gagné la partie ! 🎉")
-        reset_scores()
-def reset_scores():
-    scores["Joueur 1"] = 0
-    scores["Joueur 2"] = 0
-
 def fenetre_congrats(joueur):#ici aussi, on doit restyliser
     """affiche une fenetre de victoire lorsqu'un joueur gagne""" 
     global jeu_actif
     jeu_actif = False
-    mise_a_jour_score(joueur)
+    
     fenetre2 = tk.Toplevel(root)
     fenetre2.title("Victoire !")
     message_victoire = joueur["nom"] + " a gagné !"
@@ -341,7 +228,7 @@ def charger():
     elif int(joueur_actuel_sauvegarde)==1:
         joueur_actuel=joueurs[1]
 
-    grille_sv=[["#"]*colonnes for i in range(lignes)]
+    grille_sv=[["#"]*colonnes for i in range(lignes)] 
     cpt=0
     i=1
     while i<len(li):
@@ -363,8 +250,20 @@ def charger():
     afficher_grille()
     tk.messagebox.showinfo("Partie chargée !",f"Le joueur actuel est {joueur_actuel['nom']}.")
 
-# Demander à l'utilisateur les dimensions avant de lancer le jeu
-demander_dimensions()
+'''ajout des boutons à la fenêtre principale'''
+button_frame = tk.Frame(root)
+button_frame.pack()
+bouton_sauvegarder = tk.Button(button_frame, text="Sauvegarder", command=sauvegarder)
+bouton_sauvegarder.grid(row=0, column=1, padx=5)
+bouton_sauvegarder = tk.Button(button_frame, text="Charger", command=charger)
+bouton_sauvegarder.grid(row=0, column=2, padx=5)
+bouton_nouveau = tk.Button(button_frame, text="Nouvelle Partie", command=lambda: recommencer(root))
+bouton_nouveau.grid(row=0, column=0, padx=5)
+
 
 #crée la fenêtre 
+canvas.pack()
+afficher_grille()
+canvas.bind("<Button-1>", interagir_jeu)
+canvas.bind("<Button-3>", utiliser_joker)
 root.mainloop()
