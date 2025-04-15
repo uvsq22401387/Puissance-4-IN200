@@ -258,7 +258,7 @@ def lancer_jeu():
         messagebox.showerror("Erreur", "Les dimensions doivent être des nombres entiers positifs.")
         return
     lignes = int(entry_lignes.get())
-    colonnes = int(entry_colonnes.get()
+    colonnes = int(entry_colonnes.get())
     joueur_actuel = matchmaking()
     grille[:] = [[None for _ in range(colonnes)] for _ in range(lignes)]
     fenetre_jeu = tk.Toplevel()
