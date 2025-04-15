@@ -257,10 +257,13 @@ def lancer_jeu():
     global canvas
     
     if not entree_lignes.get().isdigit() or not entree_colonnes.get().isdigit():
-        messagebox.showerror("Erreur", "Les dimensions doivent être des nombres entiers positifs.")
-        return
-    lignes = int(entree_lignes.get())
-    colonnes = int(entree_colonnes.get())
+        lignes = 6
+        colonnes = 7
+    else:
+        lignes = int(entree_lignes.get())
+        colonnes = int(entree_colonnes.get())
+    joueurs[0]["nom"] = entree_nom_joueur1.get()
+    joueurs[1]["nom"] = entree_nom_joueur2.get()
     joueur_actuel = matchmaking()
     grille[:] = [[None for _ in range(colonnes)] for _ in range(lignes)]
     fenetre_jeu = tk.Toplevel()
@@ -281,22 +284,31 @@ def lancer_jeu():
 root = tk.Tk()
 root.title("Configuration Puissance 4")
 
+'''là on ajoute la config des dimensions'''
 tk.Label(root, text="Nombre de lignes :").pack()
 entree_lignes = tk.Entry(root)
 entree_lignes.insert(0, "6")
 entree_lignes.pack()
-
 tk.Label(root, text="Nombre de colonnes :").pack()
 entree_colonnes = tk.Entry(root)
 entree_colonnes.insert(0, "7")
 entree_colonnes.pack()
-#ajoute de nom des joeurs a faire par ghofrane et adpatation de la fenetre congrats par ghofrane
-#anis doit adapter la fonction sauvagarde et charger
-frame_couleurs = tk.Frame(root).pack(pady=5)
 
+'''là on config le nom des joueurs hehe :3'''
+tk.Label(root, text="Nom du Joueur 1 :").pack()
+entree_nom_joueur1 = tk.Entry(root)
+entree_nom_joueur1.insert(0, joueurs[0]["nom"])
+entree_nom_joueur1.pack()
+
+tk.Label(root, text="Nom du Joueur 2 :").pack()
+entree_nom_joueur2 = tk.Entry(root)
+entree_nom_joueur2.insert(0, joueurs[1]["nom"])
+entree_nom_joueur2.pack()
+
+'''là on config la couleur des joueurs'''
+frame_couleurs = tk.Frame(root).pack(pady=5)
 bouton_color_j1 = tk.Button(frame_couleurs, text="Couleur Joueur 1", bg=joueurs[0]["couleur"], command=lambda: choisir_couleur(0, bouton_color_j1))
 bouton_color_j1.pack(side="left", padx=10)
-
 bouton_color_j2 = tk.Button(frame_couleurs, text="Couleur Joueur 2", bg=joueurs[1]["couleur"], command=lambda: choisir_couleur(1, bouton_color_j2))
 bouton_color_j2.pack(side="left", padx=10)
 
