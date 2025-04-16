@@ -2,6 +2,7 @@ import tkinter as tk
 import random as rd
 from tkinter import colorchooser
 from tkinter import messagebox
+from PIL import Image, ImageTk
 
 # Variables globales
 jeu_actif = True
@@ -15,31 +16,46 @@ joueurs = [
 liste_coups = []
 
 #Contenu fenêtre principale/config
-root = tk.Tk()
+root=tk.Tk()
 root.title("Menu Puissance 4")
-tk.Label(root, text="Nombre de lignes :").pack()
-entree_lignes = tk.Entry(root)
+
+frame=tk.Frame(root)
+frame.pack(padx=20, pady=20)
+espace_gauche=tk.Frame(frame)
+espace_gauche.grid(row=0, column=0, padx=10)
+image=ImageTk.PhotoImage(Image.open("PIL/GAMEPIC.png").resize((200, 200)))
+lab_im = tk.Label(espace_gauche, image=image)
+lab_im_im=lab_im
+lab_im_im.pack()
+
+espace_droite=tk.Frame(frame)
+espace_droite.grid(row=0, column=1, padx=10)
+tk.Label(espace_droite, text="Nombre de lignes :").pack()
+entree_lignes = tk.Entry(espace_droite)
 entree_lignes.insert(0, "6")
 entree_lignes.pack()
-tk.Label(root, text="Nombre de colonnes :").pack()
-entree_colonnes = tk.Entry(root)
+tk.Label(espace_droite, text="Nombre de colonnes :").pack()
+entree_colonnes = tk.Entry(espace_droite)
 entree_colonnes.insert(0, "7")
 entree_colonnes.pack()
-tk.Label(root, text="Nom du Joueur 1 :").pack()
-entree_nom_joueur1 = tk.Entry(root)
+
+tk.Label(espace_droite, text="Nom du Joueur 1 :").pack()
+entree_nom_joueur1 = tk.Entry(espace_droite)
 entree_nom_joueur1.insert(0, joueurs[0]["nom"])
 entree_nom_joueur1.pack()
-tk.Label(root, text="Nom du Joueur 2 :").pack()
-entree_nom_joueur2 = tk.Entry(root)
+tk.Label(espace_droite, text="Nom du Joueur 2 :").pack()
+entree_nom_joueur2 = tk.Entry(espace_droite)
 entree_nom_joueur2.insert(0, joueurs[1]["nom"])
 entree_nom_joueur2.pack()
-frame_couleurs = tk.Frame(root)
+
+frame_couleurs = tk.Frame(espace_droite)
 frame_couleurs.pack(pady=5)
 bouton_color_j1 = tk.Button(frame_couleurs, text="Couleur Joueur 1", bg=joueurs[0]["couleur"], command=lambda: choisir_couleur(0, bouton_color_j1))
 bouton_color_j1.pack(side="left", padx=10)
 bouton_color_j2 = tk.Button(frame_couleurs, text="Couleur Joueur 2", bg=joueurs[1]["couleur"], command=lambda: choisir_couleur(1, bouton_color_j2))
 bouton_color_j2.pack(side="left", padx=10)
-frame_boutons = tk.Frame(root)
+
+frame_boutons = tk.Frame(espace_droite)
 frame_boutons.pack(pady=10)
 tk.Button(frame_boutons, text="Nouvelle Partie", command=lambda: lancer_jeu(charger_partie=False)).grid(row=0, column=0, padx=5)
 tk.Button(frame_boutons, text="Charger Partie", command=lambda: lancer_jeu(charger_partie=True)).grid(row=0, column=1, padx=5)
