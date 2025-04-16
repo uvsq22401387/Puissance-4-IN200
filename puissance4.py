@@ -200,7 +200,7 @@ def fenetre_congrats(joueur):#ici aussi, on doit restyliser
     fenetre2 = tk.Toplevel()
     fenetre2.title("Victoire !")
     message_victoire = joueur["nom"] + " a gagné !"
-    tk.Label(fenetre2, text=message_victoire,font=("Press Start 2P", 16), fg=joueur["couleur"]).pack()
+    tk.Label(fenetre2, text=message_victoire,font=("Orbitron", 16), fg=joueur["couleur"]).pack()
     tk.Button(fenetre2, text="Recommencer", command=lambda: recommencer(fenetre2)).pack()
     tk.Button(fenetre2, text="Fermer", command=root.destroy).pack()  #enft, fallait passer fenetre2 comme argument
 
@@ -211,9 +211,9 @@ def match_nul():#la fonction marche, mais c'est pas beau dutout...
         jeu_actif = False
         fenetre3 = tk.Toplevel(root)
         fenetre3.title("Match nul !")
-        label = tk.Label(fenetre3, text="Match nul !", font=("Press Start 2P", 16, "bold"), fg="orange")
+        label = tk.Label(fenetre3, text="Match nul !", font=("Orbitron", 16, "bold"), fg="orange")
         label.grid(column=1, row=0, padx=50)
-        label2 = tk.Label(fenetre3, text="Personne n'a gagné. Sélectionnez une option:", font=("Press Start 2P", 14), fg="orange")
+        label2 = tk.Label(fenetre3, text="Personne n'a gagné. Sélectionnez une option:", font=("Orbitron", 14), fg="orange")
         label2.grid(column=1, row=1, padx=50)
         bouton_recommencer = tk.Button(fenetre3, text="Recommencer", command=lambda: recommencer(fenetre3))
         bouton_recommencer.grid(column=0, row=1, padx=10, pady=10)
@@ -267,6 +267,8 @@ def sauvegarder():
 
 def charger():
     global joueur_actuel
+    global lignes
+    global colonnes
     global grille
     global jeu_actif
     fichier=open("savegame/savegame.txt", "r")
