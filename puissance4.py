@@ -321,11 +321,14 @@ def lancer_jeu(charger_partie=False):
     # On doit rénitialiser tout par défaut avant de récupérer les informations de la config
     #sinon, soucis au niveau de nouvelle partie après avoir chargé partie
     if not charger_partie:
+        joueurs[0]["nom"] = "Joueur 1"
+        joueurs[1]["nom"] = "Joueur 2"
+        joueurs[0]["couleur"] = "red"
+        joueurs[1]["couleur"] = "yellow"
+        joueurs[0]["Joker"] = True
+        joueurs[1]["Joker"] = True
         lignes = 6
         colonnes = 7
-        joueurs = [
-            {"nom": "Joueur 1", "couleur": "red", "Joker": True},
-            {"nom": "Joueur 2", "couleur": "yellow", "Joker": True}]
         liste_coups = []
     
     if charger_partie:
