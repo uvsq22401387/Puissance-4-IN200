@@ -315,6 +315,7 @@ def lancer_jeu(charger_partie=False):
     global colonnes
     global joueur_actuel
     global grille
+    global jeu_actif
     global canvas
     global canvas_frame
 
@@ -344,6 +345,7 @@ def lancer_jeu(charger_partie=False):
         joueur_actuel = matchmaking()
         grille[:] = [[None for _ in range(colonnes)] for _ in range(lignes)]
 
+    jeu_actif=True
     fenetre_jeu = tk.Toplevel()
     fenetre_jeu.title("Puissance 4")
     canvas_frame = tk.Frame(fenetre_jeu)
