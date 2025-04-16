@@ -21,43 +21,43 @@ root=tk.Tk()
 root.title("Menu Puissance 4")
 
 frame=tk.Frame(root)
-frame.pack(padx=20, pady=20)
+frame.grid(padx=20, pady=20)
 espace_gauche=tk.Frame(frame)
 espace_gauche.grid(row=0, column=0, padx=10)
 image=ImageTk.PhotoImage(Image.open("PIL/GAMEPIC.png").resize((200, 200)))
 lab_im = tk.Label(espace_gauche, image=image)
 lab_im_im=lab_im
-lab_im_im.pack()
+lab_im_im.grid()
 
 espace_droite=tk.Frame(frame)
 espace_droite.grid(row=0, column=1, padx=10)
-tk.Label(espace_droite, text="Nombre de lignes :").pack()
+tk.Label(espace_droite, text="Nombre de lignes :").grid()
 entree_lignes = tk.Entry(espace_droite)
 entree_lignes.insert(0, "6")
-entree_lignes.pack()
-tk.Label(espace_droite, text="Nombre de colonnes :").pack()
+entree_lignes.grid()
+tk.Label(espace_droite, text="Nombre de colonnes :").grid()
 entree_colonnes = tk.Entry(espace_droite)
 entree_colonnes.insert(0, "7")
-entree_colonnes.pack()
+entree_colonnes.grid()
 
-tk.Label(espace_droite, text="Nom du Joueur 1 :").pack()
+tk.Label(espace_droite, text="Nom du Joueur 1 :").grid()
 entree_nom_joueur1 = tk.Entry(espace_droite)
 entree_nom_joueur1.insert(0, joueurs[0]["nom"])
-entree_nom_joueur1.pack()
-tk.Label(espace_droite, text="Nom du Joueur 2 :").pack()
+entree_nom_joueur1.grid()
+tk.Label(espace_droite, text="Nom du Joueur 2 :").grid()
 entree_nom_joueur2 = tk.Entry(espace_droite)
 entree_nom_joueur2.insert(0, joueurs[1]["nom"])
-entree_nom_joueur2.pack()
+entree_nom_joueur2.grid()
 
 frame_couleurs = tk.Frame(espace_droite)
-frame_couleurs.pack(pady=5)
+frame_couleurs.grid(pady=5)
 bouton_color_j1 = tk.Button(frame_couleurs, text="Couleur Joueur 1", bg=joueurs[0]["couleur"], command=lambda: choisir_couleur(0, bouton_color_j1))
-bouton_color_j1.pack(side="left", padx=10)
+bouton_color_j1.grid(padx=10)
 bouton_color_j2 = tk.Button(frame_couleurs, text="Couleur Joueur 2", bg=joueurs[1]["couleur"], command=lambda: choisir_couleur(1, bouton_color_j2))
-bouton_color_j2.pack(side="left", padx=10)
+bouton_color_j2.grid(padx=10)
 
 frame_boutons = tk.Frame(espace_droite)
-frame_boutons.pack(pady=10)
+frame_boutons.grid(pady=10)
 tk.Button(frame_boutons, text="Nouvelle Partie", command=lambda: lancer_jeu(charger_partie=False)).grid(row=0, column=0, padx=5)
 tk.Button(frame_boutons, text="Charger Partie", command=lambda: lancer_jeu(charger_partie=True)).grid(row=0, column=1, padx=5)
 
@@ -201,9 +201,9 @@ def fenetre_congrats(joueur):#ici aussi, on doit restyliser
     fenetre2 = tk.Toplevel()
     fenetre2.title("Victoire !")
     message_victoire = joueur["nom"] + " a gagné !"
-    tk.Label(fenetre2, text=message_victoire, fg=joueur["couleur"]).pack()
-    tk.Button(fenetre2, text="Recommencer", command=lambda: recommencer(fenetre2)).pack()
-    tk.Button(fenetre2, text="Fermer", command=root.destroy).pack()  #enft, fallait passer fenetre2 comme argument
+    tk.Label(fenetre2, text=message_victoire, fg=joueur["couleur"]).grid()
+    tk.Button(fenetre2, text="Recommencer", command=lambda: recommencer(fenetre2)).grid()
+    tk.Button(fenetre2, text="Fermer", command=root.destroy).grid()  #enft, fallait passer fenetre2 comme argument
 
 def match_nul():#la fonction marche, mais c'est pas beau dutout...
     """affiche une fenetre de match nul"""
@@ -337,14 +337,14 @@ def lancer_jeu(charger_partie=False):
     fenetre_jeu = tk.Toplevel()
     fenetre_jeu.title("Puissance 4")
     canvas_frame = tk.Frame(fenetre_jeu)
-    canvas_frame.pack()
+    canvas_frame.grid()
     canvas = tk.Canvas(canvas_frame, width=colonnes * dim_case, height=lignes * dim_case, bg="#2C3E50")
-    canvas.pack()
+    canvas.grid()
     canvas.bind("<Button-1>", interagir_jeu)
     canvas.bind("<Button-3>", utiliser_joker)
     afficher_grille()
 
     bouton_sauvegarde = tk.Button(fenetre_jeu, text="Sauvegarder", command=sauvegarder)
-    bouton_sauvegarde.pack(pady=5)
+    bouton_sauvegarde.grid(pady=5)
 
 root.mainloop()
