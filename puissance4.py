@@ -329,7 +329,6 @@ def lancer_jeu(charger_partie=False):
         joueurs[1]["Joker"] = True
         lignes = 6
         colonnes = 7
-        liste_coups = []
     
     if charger_partie:
         charger()
