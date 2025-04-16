@@ -1,6 +1,7 @@
 import tkinter as tk
 import random as rd
-from tkinter import colorchooser, messagebox
+from tkinter import colorchooser
+from tkinter import messagebox
 
 # Variables globales
 jeu_actif = True
@@ -12,6 +13,36 @@ joueurs = [
     {"nom": "Joueur 1", "couleur": "red", "Joker": True},
     {"nom": "Joueur 2", "couleur": "yellow", "Joker": True}]
 liste_coups = []
+
+#Contenu fenêtre principale/config
+root = tk.Tk()
+root.title("Menu Puissance 4")
+tk.Label(root, text="Nombre de lignes :").pack()
+entree_lignes = tk.Entry(root)
+entree_lignes.insert(0, "6")
+entree_lignes.pack()
+tk.Label(root, text="Nombre de colonnes :").pack()
+entree_colonnes = tk.Entry(root)
+entree_colonnes.insert(0, "7")
+entree_colonnes.pack()
+tk.Label(root, text="Nom du Joueur 1 :").pack()
+entree_nom_joueur1 = tk.Entry(root)
+entree_nom_joueur1.insert(0, joueurs[0]["nom"])
+entree_nom_joueur1.pack()
+tk.Label(root, text="Nom du Joueur 2 :").pack()
+entree_nom_joueur2 = tk.Entry(root)
+entree_nom_joueur2.insert(0, joueurs[1]["nom"])
+entree_nom_joueur2.pack()
+frame_couleurs = tk.Frame(root)
+frame_couleurs.pack(pady=5)
+bouton_color_j1 = tk.Button(frame_couleurs, text="Couleur Joueur 1", bg=joueurs[0]["couleur"], command=lambda: choisir_couleur(0, bouton_color_j1))
+bouton_color_j1.pack(side="left", padx=10)
+bouton_color_j2 = tk.Button(frame_couleurs, text="Couleur Joueur 2", bg=joueurs[1]["couleur"], command=lambda: choisir_couleur(1, bouton_color_j2))
+bouton_color_j2.pack(side="left", padx=10)
+frame_boutons = tk.Frame(root)
+frame_boutons.pack(pady=10)
+tk.Button(frame_boutons, text="Nouvelle Partie", command=lambda: lancer_jeu(charger_partie=False)).grid(row=0, column=0, padx=5)
+tk.Button(frame_boutons, text="Charger Partie", command=lambda: lancer_jeu(charger_partie=True)).grid(row=0, column=1, padx=5)
 
 def choisir_couleur(joueur_index, bouton):
     couleur = colorchooser.askcolor(title="Choisir une couleur")[1]
@@ -153,7 +184,7 @@ def fenetre_congrats(joueur):#ici aussi, on doit restyliser
     fenetre2 = tk.Toplevel()
     fenetre2.title("Victoire !")
     message_victoire = joueur["nom"] + " a gagné !"
-    tk.Label(fenetre2, text=message_victoire,font=("Comic Sans MS", 16), fg=joueur["couleur"]).pack()
+    tk.Label(fenetre2, text=message_victoire,font=("Press Start 2P", 16), fg=joueur["couleur"]).pack()
     tk.Button(fenetre2, text="Recommencer", command=lambda: recommencer(fenetre2)).pack()
     tk.Button(fenetre2, text="Fermer", command=root.destroy).pack()  #enft, fallait passer fenetre2 comme argument
 
@@ -164,9 +195,9 @@ def match_nul():#la fonction marche, mais c'est pas beau dutout...
         jeu_actif = False
         fenetre3 = tk.Toplevel(root)
         fenetre3.title("Match nul !")
-        label = tk.Label(fenetre3, text="Match nul !", font=("Comic Sans MS", 16, "bold"), fg="orange")
+        label = tk.Label(fenetre3, text="Match nul !", font=("Press Start 2P", 16, "bold"), fg="orange")
         label.grid(column=1, row=0, padx=50)
-        label2 = tk.Label(fenetre3, text="Personne n'a gagné. Sélectionnez une option:", font=("Comic Sans MS", 14), fg="orange")
+        label2 = tk.Label(fenetre3, text="Personne n'a gagné. Sélectionnez une option:", font=("Press Start 2P", 14), fg="orange")
         label2.grid(column=1, row=1, padx=50)
         bouton_recommencer = tk.Button(fenetre3, text="Recommencer", command=lambda: recommencer(fenetre3))
         bouton_recommencer.grid(column=0, row=1, padx=10, pady=10)
@@ -296,43 +327,5 @@ def lancer_jeu(charger_partie=False):
 
     bouton_sauvegarde = tk.Button(fenetre_jeu, text="Sauvegarder", command=sauvegarder)
     bouton_sauvegarde.pack(pady=5)
-
-'''ajout des boutons à la fenêtre principale'''
-root = tk.Tk()
-root.title("Configuration Puissance 4")
-
-'''là on ajoute la config des dimensions'''
-tk.Label(root, text="Nombre de lignes :").pack()
-entree_lignes = tk.Entry(root)
-entree_lignes.insert(0, "6")
-entree_lignes.pack()
-tk.Label(root, text="Nombre de colonnes :").pack()
-entree_colonnes = tk.Entry(root)
-entree_colonnes.insert(0, "7")
-entree_colonnes.pack()
-
-'''là on config le nom des joueurs hehe :3'''
-tk.Label(root, text="Nom du Joueur 1 :").pack()
-entree_nom_joueur1 = tk.Entry(root)
-entree_nom_joueur1.insert(0, joueurs[0]["nom"])
-entree_nom_joueur1.pack()
-
-tk.Label(root, text="Nom du Joueur 2 :").pack()
-entree_nom_joueur2 = tk.Entry(root)
-entree_nom_joueur2.insert(0, joueurs[1]["nom"])
-entree_nom_joueur2.pack()
-
-'''là on config la couleur des joueurs'''
-frame_couleurs = tk.Frame(root).pack(pady=5)
-bouton_color_j1 = tk.Button(frame_couleurs, text="Couleur Joueur 1", bg=joueurs[0]["couleur"], command=lambda: choisir_couleur(0, bouton_color_j1))
-bouton_color_j1.pack(side="left", padx=10)
-bouton_color_j2 = tk.Button(frame_couleurs, text="Couleur Joueur 2", bg=joueurs[1]["couleur"], command=lambda: choisir_couleur(1, bouton_color_j2))
-bouton_color_j2.pack(side="left", padx=10)
-
-frame_boutons = tk.Frame(root)
-frame_boutons.pack(pady=10)
-
-tk.Button(frame_boutons, text="Nouvelle Partie", command=lambda: lancer_jeu(charger_partie=False)).grid(row=0, column=0, padx=5)
-tk.Button(frame_boutons, text="Charger Partie", command=lambda: lancer_jeu(charger_partie=True)).grid(row=0, column=1, padx=5)
 
 root.mainloop()
