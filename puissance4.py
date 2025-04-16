@@ -317,6 +317,16 @@ def lancer_jeu(charger_partie=False):
     global grille
     global canvas
     global canvas_frame
+
+    # On doit rénitialiser tout par défaut avant de récupérer les informations de la config
+    #sinon, soucis au niveau de nouvelle partie après avoir chargé partie
+    if not charger_partie:
+        lignes = 6
+        colonnes = 7
+        joueurs = [
+            {"nom": "Joueur 1", "couleur": "red", "Joker": True},
+            {"nom": "Joueur 2", "couleur": "yellow", "Joker": True}]
+        liste_coups = []
     
     if charger_partie:
         charger()
