@@ -18,12 +18,12 @@ Le projet consiste en la réalisation d'un jeu de Puissance 4 en Python
 
 
 ## ✅ Améliorations possibles
-- [ ] Menu principal permettant de configurer la partie avant le lancement. (En cours de développement)
+- [x] Menu principal permettant de configurer la partie avant le lancement.
 - [x] Fenêtre de victoire annonçant le gagnant.
 - [x] Fenêtre de match nul.
 - [x] Possibilité de recommencer une partie après une victoire.
 - [x] Joker pendant une partie - annuler un coup joué (En cours de développement)
-- [x] Timer : temps de jeu limité
+- [ ] Timer : temps de jeu limité
 
 ## Aperçu du jeu
 Voici un aperçu du jeu en action :
