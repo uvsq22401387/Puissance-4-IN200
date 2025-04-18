@@ -322,14 +322,32 @@ def lancer_jeu(charger_partie=False):
     # On doit rénitialiser tout par défaut avant de récupérer les informations de la config
     #sinon, soucis au niveau de nouvelle partie après avoir chargé partie
     if not charger_partie:
-        joueurs[0]["nom"] = "Joueur 1"
-        joueurs[1]["nom"] = "Joueur 2"
-        joueurs[0]["couleur"] = "red"
-        joueurs[1]["couleur"] = "yellow"
-        joueurs[0]["Joker"] = True
-        joueurs[1]["Joker"] = True
-        lignes = 6
-        colonnes = 7
+        if not joueurs[0].get("nom"):
+            joueurs[0]["nom"] = "Joueur 1"
+        if not joueurs[1].get("nom"):
+            joueurs[1]["nom"] = "Joueur 2"
+
+        if not joueurs[0].get("couleur"):
+            joueurs[0]["couleur"] = "red"
+        if not joueurs[1].get("couleur"):
+            joueurs[1]["couleur"] = "yellow"
+
+        if not joueurs[0].get("Joker"):
+            joueurs[0]["Joker"] = True
+        if not joueurs[1].get("Joker"):
+            joueurs[1]["Joker"] = True
+    # On vérifie que les entrées sont valides, sinon on applique direct les valeurs par défaut
+    #En fait, ya un soucis avec la gestion des données par défaut. Le jeu n'applique pas les paramètres sans ça
+        if not entree_lignes.get().isdigit():
+            lignes = 6
+        else:
+            lignes = int(entree_lignes.get())
+
+        if not entree_colonnes.get().isdigit():
+            colonnes = 7
+        else:
+            colonnes = int(entree_colonnes.get())
+
     
     if charger_partie:
         charger()
