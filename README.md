@@ -27,8 +27,11 @@ Le projet consiste en la réalisation d'un jeu de Puissance 4 en Python
 
 ## Aperçu du jeu
 Voici un aperçu du jeu en action :
-![Puissance 4 Screenshot](ressources/SCREENSHOT_CONFIG.png)
-![Puissance 4 Screenshot](ressources/screenshot.png)
+
+<div style="display: flex; justify-content: space-between;">
+  <img src="ressources/SCREENSHOT_CONFIG.png" alt="Screenshot Config" width="45%" />
+  <img src="ressources/screenshot.png" alt="Screenshot" width="45%" />
+</div>
 
 
 
