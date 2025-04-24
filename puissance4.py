@@ -2,7 +2,6 @@ import tkinter as tk
 import random as rd
 from tkinter import colorchooser
 from tkinter import messagebox
-import tkinter.font as tkFont
 from PIL import Image, ImageTk
 
 # Variables globales
