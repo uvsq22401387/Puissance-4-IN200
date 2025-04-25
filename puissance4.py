@@ -14,6 +14,7 @@ joueurs = [
     {"nom": "Joueur 1", "couleur": "red", "Joker": True},
     {"nom": "Joueur 2", "couleur": "yellow", "Joker": True}]
 liste_coups = []
+jetons_pour_gagner = 4
 
 #Contenu fenêtre principale/config
 root=tk.Tk()
@@ -57,6 +58,12 @@ frame_boutons = tk.Frame(espace_droite)
 frame_boutons.grid(pady=10)
 tk.Button(frame_boutons, text="Nouvelle Partie", command=lambda: lancer_jeu(charger_partie=False)).grid(row=0, column=0, padx=5)
 tk.Button(frame_boutons, text="Charger Partie", command=lambda: lancer_jeu(charger_partie=True)).grid(row=0, column=1, padx=5)
+
+
+tk.Label(espace_droite, text="Nombre de jetons pour gagner :").grid(row=7, column=0, sticky="w")
+entree_nb_jetons = tk.Entry(espace_droite)
+entree_nb_jetons.insert(0, "4")  # Valeur par défaut de 4
+entree_nb_jetons.grid(row=7, column=1)
 
 def choisir_couleur(joueur_index, bouton):
     couleur = colorchooser.askcolor(title="Choisir une couleur")[1]
@@ -121,13 +128,13 @@ def interagir_jeu(event):
 def verifier_vertical(ligne, colonne, couleur):
     """verifie si un joueur a gagné verticalement"""
     compteur = 0
-    for k in range(-3, 4):
+    for k in range(-jetons_pour_gagner + 1, jetons_pour_gagner):
         if 0 <= (ligne + k) and (ligne + k) < lignes:
             if couleur == grille[ligne+k][colonne]:
                 compteur += 1
             else:
                 compteur = 0
-            if compteur == 4:
+            if compteur == jetons_pour_gagner:
                 return True
         
     return False
@@ -136,26 +143,26 @@ def verifier_vertical(ligne, colonne, couleur):
 def verifier_horizontal(ligne, colonne, couleur):
     """verifie si un joueur a gagné horizontalement"""
     compteur = 0
-    for k in range(-3,4):
+    for k in range(-jetons_pour_gagner + 1, jetons_pour_gagner):
         if 0 <= (colonne + k) and (colonne + k) < colonnes:
             if couleur == grille[ligne][colonne+k]:
                 compteur += 1
             else:
                 compteur = 0
-            if compteur == 4:
+            if compteur == jetons_pour_gagner:
                 return True
     return False
 
 def verifier_diagonale(ligne, colonne, couleur):
     """verifie si un joueur a gagné en diagonale"""
     compteur = 0
-    for k in range(-3, 4):
+    for k in range(-jetons_pour_gagner + 1, jetons_pour_gagner):
         if (0 <= (colonne + k) and (colonne + k) < colonnes) and (0 <= (ligne + k) and (ligne + k) < len(grille)):
             if couleur == grille[ligne+k][colonne+k]:
                 compteur += 1
             else:
                 compteur = 0
-            if compteur == 4:
+            if compteur == jetons_pour_gagner:
                 return True 
     compteur = 0
     for k in range(-3, 4):
@@ -164,7 +171,7 @@ def verifier_diagonale(ligne, colonne, couleur):
                 compteur += 1
             else:
                 compteur = 0
-            if compteur == 4:
+            if compteur == jetons_pour_gagner:
                 return True 
     return False
 
@@ -317,6 +324,7 @@ def lancer_jeu(charger_partie=False):
     global jeu_actif
     global canvas
     global canvas_frame
+    global jetons_pour_gagner
 
     # On doit rénitialiser tout par défaut avant de récupérer les informations de la config
     #sinon, soucis au niveau de nouvelle partie après avoir chargé partie
@@ -346,8 +354,19 @@ def lancer_jeu(charger_partie=False):
             colonnes = 7
         else:
             colonnes = int(entree_colonnes.get())
+        
+        # Lors du lancement du jeu, récupère le nombre de jetons à partir de l'interface graphique
+        if entree_nb_jetons.get().isdigit():
+            jetons_pour_gagner = int(entree_nb_jetons.get())
 
-    
+        else:
+            # Si l'entrée n'est pas un nombre valide, on affiche un message d'erreur et on garde la valeur par défaut
+            print("Veuillez entrer un nombre valide de jetons pour gagner.")
+            # Ou tu peux afficher un message dans l'interface, par exemple avec une étiquette (label)
+            erreur_label = tk.Label(espace_gauche, text="Entrée invalide ! Valeur par défaut (4) utilisée.", fg="red")
+            erreur_label.grid(row=3, column=0, columnspan=2)
+            jetons_pour_gagner = 4  # Revenir à la valeur par défaut
+
     if charger_partie:
         charger()
     else:
