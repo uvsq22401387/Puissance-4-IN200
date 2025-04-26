@@ -33,11 +33,9 @@ espace_droite=tk.Frame(frame)
 espace_droite.grid(row=0, column=1, padx=10)
 tk.Label(espace_droite, text="Nombre de lignes :").grid(row=0, column=0, sticky="w")
 entree_lignes = tk.Entry(espace_droite)
-entree_lignes.insert(0, "6")
 entree_lignes.grid(row=0, column=1)
 tk.Label(espace_droite, text="Nombre de colonnes :").grid(row=1, column=0, sticky="w")
 entree_colonnes = tk.Entry(espace_droite)
-entree_colonnes.insert(0, "7")
 entree_colonnes.grid(row=1, column=1)
 
 tk.Label(espace_droite, text="Nom du Joueur 1 :").grid(row=2, column=0, sticky="w")
@@ -47,21 +45,19 @@ tk.Label(espace_droite, text="Nom du Joueur 2 :").grid(row=3, column=0, sticky="
 entree_nom_joueur2 = tk.Entry(espace_droite)
 entree_nom_joueur2.grid(row=3, column=1)
 
+tk.Label(espace_droite, text="Nombre de jetons pour gagner :").grid(row=4, column=0, sticky="w")
+entree_nb_jetons = tk.Entry(espace_droite)
+entree_nb_jetons.grid(row=4, column=1)
+
 bouton_color_j1 = tk.Button(espace_droite, text="Couleur Joueur 1", command=lambda: choisir_couleur(0, bouton_color_j1))
-bouton_color_j1.grid(row=4, column=0, sticky="w")
+bouton_color_j1.grid(row=5, column=0, sticky="w")
 bouton_color_j2 = tk.Button(espace_droite, text="Couleur Joueur 2", command=lambda: choisir_couleur(1, bouton_color_j2))
-bouton_color_j2.grid(row=5, column=0, sticky="w")
+bouton_color_j2.grid(row=6, column=0, sticky="w")
 
 frame_boutons = tk.Frame(espace_droite)
 frame_boutons.grid(pady=10)
 tk.Button(frame_boutons, text="Nouvelle Partie", command=lambda: lancer_jeu(charger_partie=False)).grid(row=0, column=0, padx=5)
 tk.Button(frame_boutons, text="Charger Partie", command=lambda: lancer_jeu(charger_partie=True)).grid(row=0, column=1, padx=5)
-
-
-tk.Label(espace_droite, text="Nombre de jetons pour gagner :").grid(row=7, column=0, sticky="w")
-entree_nb_jetons = tk.Entry(espace_droite)
-entree_nb_jetons.insert(0, "4")  # Valeur par défaut de 4
-entree_nb_jetons.grid(row=7, column=1)
 
 #ça pas touche, c'est juste pour stocker de coté les couleurs 
 color_j1 = None
@@ -307,7 +303,8 @@ def charger():
     grille_sv = [["#" for _ in range(dimensions_colonne)] for _ in range(dimensions_ligne)]
     cpt = 0
     while cpt < dimensions_ligne:
-        ligne_save = li[5 + cpt].strip()
+        ligne_save = li[5
+        * + cpt].strip()
         j = 0
         while j < dimensions_colonne:
             if ligne_save[j] == "0":
