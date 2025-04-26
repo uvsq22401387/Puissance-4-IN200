@@ -4,17 +4,17 @@ from tkinter import colorchooser
 from tkinter import messagebox
 from PIL import Image, ImageTk
 
-# Variables globales
+# On initialise juste les variables globales
 jeu_actif = True
-lignes = 6
-colonnes = 7
+lignes = 0
+colonnes = 0
 dim_case = 80
 grille = [[None] * colonnes for _ in range(lignes)]
 joueurs = [
-    {"nom": "Joueur 1", "couleur": "red", "Joker": True},
-    {"nom": "Joueur 2", "couleur": "yellow", "Joker": True}]
+    {"nom": None, "couleur": None, "Joker": True},
+    {"nom": None, "couleur": None, "Joker": True}]
 liste_coups = []
-jetons_pour_gagner = 4
+jetons_pour_gagner = 0
 
 #Contenu fenêtre principale/config
 root=tk.Tk()
@@ -42,16 +42,14 @@ entree_colonnes.grid(row=1, column=1)
 
 tk.Label(espace_droite, text="Nom du Joueur 1 :").grid(row=2, column=0, sticky="w")
 entree_nom_joueur1 = tk.Entry(espace_droite)
-entree_nom_joueur1.insert(0, joueurs[0]["nom"])
 entree_nom_joueur1.grid(row=2, column=1)
 tk.Label(espace_droite, text="Nom du Joueur 2 :").grid(row=3, column=0, sticky="w")
 entree_nom_joueur2 = tk.Entry(espace_droite)
-entree_nom_joueur2.insert(0, joueurs[1]["nom"])
 entree_nom_joueur2.grid(row=3, column=1)
 
-bouton_color_j1 = tk.Button(espace_droite, text="Couleur Joueur 1", bg=joueurs[0]["couleur"], command=lambda: choisir_couleur(0, bouton_color_j1))
+bouton_color_j1 = tk.Button(espace_droite, text="Couleur Joueur 1", command=lambda: choisir_couleur(0, bouton_color_j1))
 bouton_color_j1.grid(row=4, column=0, sticky="w")
-bouton_color_j2 = tk.Button(espace_droite, text="Couleur Joueur 2", bg=joueurs[1]["couleur"], command=lambda: choisir_couleur(1, bouton_color_j2))
+bouton_color_j2 = tk.Button(espace_droite, text="Couleur Joueur 2", command=lambda: choisir_couleur(1, bouton_color_j2))
 bouton_color_j2.grid(row=5, column=0, sticky="w")
 
 frame_boutons = tk.Frame(espace_droite)
@@ -65,18 +63,25 @@ entree_nb_jetons = tk.Entry(espace_droite)
 entree_nb_jetons.insert(0, "4")  # Valeur par défaut de 4
 entree_nb_jetons.grid(row=7, column=1)
 
-def choisir_couleur(joueur_index, bouton):
+#ça pas touche, c'est juste pour stocker de coté les couleurs 
+color_j1 = None
+color_j2 = None
+
+def choisir_couleur(index, bouton):
+    global color_j1
+    global color_j2
     couleur = colorchooser.askcolor(title="Choisir une couleur")[1]
     if couleur:
-        joueurs[joueur_index]["couleur"] = couleur
+        if index == 0:
+            color_j1 = couleur
+        elif index == 1:
+            color_j2 = couleur
         bouton.config(bg=couleur)
 
 def matchmaking():
     """fonction qui choisit aléatoirement quel joueur commence"""
     joueur_actuel = rd.choice(joueurs)
     return joueur_actuel
-    
-joueur_actuel = matchmaking() #cette variable permet de savoir quel joueur doit jouer
 
 def selection_joueur():
     """fonction qui change le tour du joueur"""
@@ -256,6 +261,8 @@ def sauvegarder():
     fichier.write(f"{joueurs[0]['nom']}-{joueurs[0]['couleur']}\n")
     fichier.write(f"{joueurs[1]['nom']}-{joueurs[1]['couleur']}\n")
 
+    fichier.write(f"{jetons_pour_gagner}\n")
+    
     fichier.write(f"{lignes}x{colonnes}\n")
 
     for i in grille:
@@ -271,37 +278,38 @@ def sauvegarder():
     tk.messagebox.showinfo("Sauvegarde de la partie...", "Partie sauvegardée avec succès.")
 
 def charger():
-    global joueur_actuel
-    global lignes
-    global colonnes
-    global grille
-    global jeu_actif
+
     fichier=open("savegame/savegame.txt", "r")
     li=fichier.readlines()
 
-    joueur_actuel_sauvegarde=li[0].strip()
-    if int(joueur_actuel_sauvegarde)==0:
-        joueur_actuel=joueurs[0]
-    elif int(joueur_actuel_sauvegarde)==1:
-        joueur_actuel=joueurs[1]
+    joueur_actuel=li[0].strip()
 
     ligne_joueur_0=li[1].strip().split("-")
+    nom_joueur1=ligne_joueur_0[0]
+    couleur_joueur1=ligne_joueur_0[1]
+
     ligne_joueur_1=li[2].strip().split("-")
-    joueurs[0]["nom"]=ligne_joueur_0[0]
-    joueurs[0]["couleur"]=ligne_joueur_0[1]
-    joueurs[1]["nom"]=ligne_joueur_1[0]
-    joueurs[1]["couleur"]=ligne_joueur_1[1]
+    nom_joueur2=ligne_joueur_1[0]
+    couleur_joueur2=ligne_joueur_1[1]
 
-    dimensions=li[3].strip().split("x")
-    lignes=int(dimensions[0])
-    colonnes=int(dimensions[1])
+    nombre_jetons_sv=int(li[3].strip())
 
-    grille_sv = [["#" for _ in range(colonnes)] for _ in range(lignes)]
+    dimensions=li[4].strip().split("x")
+    dimensions_ligne=int(dimensions[0])
+    dimensions_colonne=int(dimensions[1])
+
+    joueurs = [
+            {"nom": nom_joueur1, "couleur": couleur_joueur1, "Joker": True},
+            {"nom": nom_joueur2, "couleur": couleur_joueur2, "Joker": True}]
+    
+    joueur_actuel_sv=joueurs[int(joueur_actuel)]
+
+    grille_sv = [["#" for _ in range(dimensions_colonne)] for _ in range(dimensions_ligne)]
     cpt = 0
-    while cpt < lignes:
-        ligne_save = li[4 + cpt].strip()
+    while cpt < dimensions_ligne:
+        ligne_save = li[5 + cpt].strip()
         j = 0
-        while j < colonnes:
+        while j < dimensions_colonne:
             if ligne_save[j] == "0":
                 grille_sv[cpt][j] = joueurs[0]
             elif ligne_save[j] == "1":
@@ -310,76 +318,35 @@ def charger():
                 grille_sv[cpt][j] = None
             j += 1
         cpt += 1
-    grille=grille_sv
     fichier.close()
-    tk.messagebox.showinfo("Partie chargée !",f"Le joueur actuel est {joueur_actuel['nom']}.")
-    return grille, joueurs, joueur_actuel, lignes, colonnes
+    tk.messagebox.showinfo("Partie chargée !",f"Le joueur actuel est {joueurs[int(joueur_actuel)]["nom"]}")
+    return dimensions_ligne, dimensions_colonne, grille_sv, joueur_actuel_sv, joueurs, nombre_jetons_sv
 
 
 def lancer_jeu(charger_partie=False):
     global lignes
     global colonnes
     global joueur_actuel
+    global joueurs
     global grille
     global jeu_actif
     global canvas
     global canvas_frame
     global jetons_pour_gagner
 
-    # On doit rénitialiser tout par défaut avant de récupérer les informations de la config
-    #sinon, soucis au niveau de nouvelle partie après avoir chargé partie
-    if not charger_partie:
-        if not joueurs[0].get("nom"):
-            joueurs[0]["nom"] = "Joueur 1"
-        if not joueurs[1].get("nom"):
-            joueurs[1]["nom"] = "Joueur 2"
-
-        if not joueurs[0].get("couleur"):
-            joueurs[0]["couleur"] = "red"
-        if not joueurs[1].get("couleur"):
-            joueurs[1]["couleur"] = "yellow"
-
-        if not joueurs[0].get("Joker"):
-            joueurs[0]["Joker"] = True
-        if not joueurs[1].get("Joker"):
-            joueurs[1]["Joker"] = True
-    # On vérifie que les entrées sont valides, sinon on applique direct les valeurs par défaut
-    #En fait, ya un soucis avec la gestion des données par défaut. Le jeu n'applique pas les paramètres sans ça
-        if not entree_lignes.get().isdigit():
-            lignes = 6
-        else:
-            lignes = int(entree_lignes.get())
-
-        if not entree_colonnes.get().isdigit():
-            colonnes = 7
-        else:
-            colonnes = int(entree_colonnes.get())
-        
-        # Lors du lancement du jeu, récupère le nombre de jetons à partir de l'interface graphique
-        if entree_nb_jetons.get().isdigit():
-            jetons_pour_gagner = int(entree_nb_jetons.get())
-
-        else:
-            # Si l'entrée n'est pas un nombre valide, on affiche un message d'erreur et on garde la valeur par défaut
-            print("Veuillez entrer un nombre valide de jetons pour gagner.")
-            # Ou tu peux afficher un message dans l'interface, par exemple avec une étiquette (label)
-            erreur_label = tk.Label(espace_gauche, text="Entrée invalide ! Valeur par défaut (4) utilisée.", fg="red")
-            erreur_label.grid(row=3, column=0, columnspan=2)
-            jetons_pour_gagner = 4  # Revenir à la valeur par défaut
-
     if charger_partie:
-        charger()
-    else:
-        if not entree_lignes.get().isdigit() or not entree_colonnes.get().isdigit():
-            lignes = 6
-            colonnes = 7
-        else:
-            lignes = int(entree_lignes.get())
-            colonnes = int(entree_colonnes.get())
-        joueurs[0]["nom"] = entree_nom_joueur1.get()
-        joueurs[1]["nom"] = entree_nom_joueur2.get()
+        lignes, colonnes, grille,joueur_actuel, joueurs, jetons_pour_gagner = charger()
+    
+
+    elif not charger_partie:
+        lignes = int(entree_lignes.get())
+        colonnes = int(entree_colonnes.get())
+        grille = [[None] * colonnes for _ in range(lignes)]
+        joueurs = [
+            {"nom": entree_nom_joueur1.get(), "couleur": color_j1},
+            {"nom": entree_nom_joueur2.get(), "couleur": color_j2}]
         joueur_actuel = matchmaking()
-        grille[:] = [[None for _ in range(colonnes)] for _ in range(lignes)]
+        jetons_pour_gagner = int(entree_nb_jetons.get())
 
     jeu_actif=True
     fenetre_jeu = tk.Toplevel()
