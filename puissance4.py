@@ -340,8 +340,7 @@ def charger():
     grille_sv = [["#" for _ in range(dimensions_colonne)] for _ in range(dimensions_ligne)]
     cpt = 0
     while cpt < dimensions_ligne:
-        ligne_save = li[5
-        * + cpt].strip()
+        ligne_save = li[5 + cpt].strip()
         j = 0
         while j < dimensions_colonne:
             if ligne_save[j] == "0":
