@@ -227,6 +227,8 @@ def fenetre_congrats(joueur):#ici aussi, on doit restyliser
     """affiche une fenetre de victoire lorsqu'un joueur gagne""" 
     global jeu_actif
     jeu_actif = False
+
+    ajouter_victoire(joueur)
     
     fenetre2 = tk.Toplevel()
     fenetre2.title("Victoire !")
@@ -234,6 +236,16 @@ def fenetre_congrats(joueur):#ici aussi, on doit restyliser
     tk.Label(fenetre2, text=message_victoire, fg=joueur["couleur"]).grid()
     tk.Button(fenetre2, text="Recommencer", command=lambda: recommencer(fenetre2)).grid()
     tk.Button(fenetre2, text="Fermer", command=root.destroy).grid()  #enft, fallait passer fenetre2 comme argument
+
+def ajouter_victoire(joueur):
+    joueur["victoires"] += 1
+
+def afficher_scores():
+    fenetre_score = tk.Toplevel()
+    fenetre_score.title("Scores")
+    for idx, joueur in enumerate(joueurs):
+        score_txt = f"{joueur['nom']} : {joueur['victoires']} victoire(s)"
+        tk.Label(fenetre_score, text=score_txt, fg=joueur["couleur"]).grid(row=idx, column=0, pady=5)
 
 def match_nul():#la fonction marche, mais c'est pas beau dutout...
     """affiche une fenetre de match nul"""
@@ -373,6 +385,8 @@ def lancer_jeu(charger_partie=False):
     jeu_actif=True
     fenetre_jeu = tk.Toplevel()
     fenetre_jeu.title("Puissance 4")
+    bouton_scores = tk.Button(fenetre_jeu, text="Voir les scores", command=afficher_scores)
+    bouton_scores.grid(pady=5)
     canvas_frame = tk.Frame(fenetre_jeu)
     canvas_frame.grid()
     canvas = tk.Canvas(canvas_frame, width=colonnes * dim_case, height=lignes * dim_case, bg="#2C3E50")
