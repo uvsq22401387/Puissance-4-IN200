@@ -103,6 +103,31 @@ def afficher_grille():
                 couleur = case["couleur"]
             canvas.create_oval(x1, y1, x2, y2, fill=couleur, outline="black", width=4)
 
+start_time = None  
+label_timer = None  
+
+def lancer_timer():
+    """Fonction pour démarrer le timer"""
+    global start_time, label_timer
+    start_time = time.time()
+
+   
+    label_timer = tk.Label(fenetre_jeu, text="Temps écoulé : 00:00", font=("Helvetica", 12), fg="white", bg="#2C3E50")
+    label_timer.grid(row=0, column=0, padx=10, pady=10)
+
+    def mettre_a_jour_timer():
+        if not jeu_actif:  
+            return
+        if start_time:
+            elapsed_time = time.time() - start_time
+            minutes = int(elapsed_time // 60)
+            secondes = int(elapsed_time % 60)
+            label_timer.config(text=f"Temps écoulé : {minutes:02d}:{secondes:02d}")
+        
+        fenetre_jeu.after(1000, mettre_a_jour_timer)
+    
+    mettre_a_jour_timer()
+    
 def interagir_jeu(event):
     """fonction qui permet de placer son jeton dans la grille"""
     global joueur_actuel
@@ -358,5 +383,5 @@ def lancer_jeu(charger_partie=False):
 
     bouton_sauvegarde = tk.Button(fenetre_jeu, text="Sauvegarder", command=sauvegarder)
     bouton_sauvegarde.grid(pady=5)
-
+    lancer_timer()
 root.mainloop()
