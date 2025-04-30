@@ -255,7 +255,7 @@ def fenetre_congrats(joueur):#ici aussi, on doit restyliser
     message_victoire = joueur["nom"] + " a gagné !"
     tk.Label(fenetre2, text=message_victoire, fg=joueur["couleur"]).grid()
     tk.Button(fenetre2, text="Recommencer", command=lambda: recommencer(fenetre2)).grid()
-    tk.Button(fenetre2, text="Fermer", command=root.destroy).grid()  #enft, fallait passer fenetre2 comme argument
+    tk.Button(fenetre2, text="Quitter", command=quitter).grid()  #enft, fallait passer fenetre2 comme argument
 
 
 def match_nul():#la fonction marche, mais c'est pas beau dutout...
@@ -271,7 +271,7 @@ def match_nul():#la fonction marche, mais c'est pas beau dutout...
         label2.grid(column=1, row=1, padx=50)
         bouton_recommencer = tk.Button(fenetre3, text="Recommencer", command=lambda: recommencer(fenetre3))
         bouton_recommencer.grid(column=0, row=1, padx=10, pady=10)
-        bouton_fermer = tk.Button(fenetre3, text="Fermer", command=root.destroy)
+        bouton_fermer = tk.Button(fenetre3, text="Quitter", command=quitter)
         bouton_fermer.grid(column=1, row=1, padx=50)
 
         return True
@@ -288,6 +288,10 @@ def recommencer(fenetre):
     if fenetre!=root:
         fenetre.destroy()
     afficher_grille()
+
+def quitter():
+        if messagebox.askyesno("Confirmation", "Veux-tu vraiment quitter ?"):
+            root.destroy()
 
 
 def sauvegarder():
@@ -410,4 +414,7 @@ def lancer_jeu(charger_partie=False):
 
     bouton_sauvegarde = tk.Button(fenetre_jeu, text="Sauvegarder", command=sauvegarder)
     bouton_sauvegarde.grid(pady=5)
+    bouton_quitter = tk.Button(fenetre_jeu, text="Quitter", command=quitter)
+    bouton_quitter.grid(pady=5)
+
 root.mainloop()
