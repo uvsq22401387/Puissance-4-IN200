@@ -34,20 +34,27 @@ espace_droite.grid(row=0, column=1, padx=10)
 tk.Label(espace_droite, text="Nombre de lignes :").grid(row=0, column=0, sticky="w")
 entree_lignes = tk.Entry(espace_droite)
 entree_lignes.grid(row=0, column=1)
+entree_lignes.insert(0, "6")
+
 tk.Label(espace_droite, text="Nombre de colonnes :").grid(row=1, column=0, sticky="w")
 entree_colonnes = tk.Entry(espace_droite)
 entree_colonnes.grid(row=1, column=1)
+entree_colonnes.insert(0, "7")
 
 tk.Label(espace_droite, text="Nom du Joueur 1 :").grid(row=2, column=0, sticky="w")
 entree_nom_joueur1 = tk.Entry(espace_droite)
 entree_nom_joueur1.grid(row=2, column=1)
+entree_nom_joueur1.insert(0, "Joueur 1")
+
 tk.Label(espace_droite, text="Nom du Joueur 2 :").grid(row=3, column=0, sticky="w")
 entree_nom_joueur2 = tk.Entry(espace_droite)
 entree_nom_joueur2.grid(row=3, column=1)
+entree_nom_joueur2.insert(0, "Joueur 2")
 
 tk.Label(espace_droite, text="Nombre de jetons pour gagner :").grid(row=4, column=0, sticky="w")
 entree_nb_jetons = tk.Entry(espace_droite)
 entree_nb_jetons.grid(row=4, column=1)
+entree_nb_jetons.insert(0, 4)
 
 bouton_color_j1 = tk.Button(espace_droite, text="Couleur Joueur 1", command=lambda: choisir_couleur(0, bouton_color_j1))
 bouton_color_j1.grid(row=5, column=0, sticky="w")
@@ -260,6 +267,8 @@ def sauvegarder():
 
     fichier.write(f"{jetons_pour_gagner}\n")
     
+    fichier.write(f"{joueurs[0]['Joker']}-{joueurs[1]['Joker']}\n")
+
     fichier.write(f"{lignes}x{colonnes}\n")
 
     for i in grille:
@@ -291,20 +300,24 @@ def charger():
 
     nombre_jetons_sv=int(li[3].strip())
 
-    dimensions=li[4].strip().split("x")
+    jokers=li[4].strip().split("-")
+    joker_1=jokers[0]
+    joker_2=jokers[1]
+
+    dimensions=li[5].strip().split("x")
     dimensions_ligne=int(dimensions[0])
     dimensions_colonne=int(dimensions[1])
 
     joueurs = [
-            {"nom": nom_joueur1, "couleur": couleur_joueur1, "Joker": True},
-            {"nom": nom_joueur2, "couleur": couleur_joueur2, "Joker": True}]
+            {"nom": nom_joueur1, "couleur": couleur_joueur1, "Joker": joker_1},
+            {"nom": nom_joueur2, "couleur": couleur_joueur2, "Joker": joker_2}]
     
     joueur_actuel_sv=joueurs[int(joueur_actuel)]
 
     grille_sv = [["#" for _ in range(dimensions_colonne)] for _ in range(dimensions_ligne)]
     cpt = 0
     while cpt < dimensions_ligne:
-        ligne_save = li[5 + cpt].strip()
+        ligne_save = li[6 + cpt].strip()
         j = 0
         while j < dimensions_colonne:
             if ligne_save[j] == "0":
@@ -340,8 +353,8 @@ def lancer_jeu(charger_partie=False):
         colonnes = int(entree_colonnes.get())
         grille = [[None] * colonnes for _ in range(lignes)]
         joueurs = [
-            {"nom": entree_nom_joueur1.get(), "couleur": color_j1},
-            {"nom": entree_nom_joueur2.get(), "couleur": color_j2}]
+            {"nom": entree_nom_joueur1.get(), "couleur": color_j1, "Joker": True},
+            {"nom": entree_nom_joueur2.get(), "couleur": color_j2, "Joker": True}]
         joueur_actuel = matchmaking()
         jetons_pour_gagner = int(entree_nb_jetons.get())
 
