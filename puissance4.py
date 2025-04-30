@@ -4,7 +4,7 @@ from tkinter import colorchooser, messagebox, font
 from PIL import Image, ImageTk
 
 # On initialise juste les variables globales
-jeu_actif = True
+jeu_actif = False
 lignes = 0
 colonnes = 0
 dim_case = 80
@@ -29,7 +29,7 @@ frame.grid(padx=20, pady=20)
 
 espace_gauche = tk.Frame(frame)
 espace_gauche.grid(row=0, column=0, padx=10)
-image = ImageTk.PhotoImage(Image.open("PIL/GAMEPIC.png").resize((300, 300)))
+image = ImageTk.PhotoImage(Image.open("PIL/GAMEPIC.png").resize((400, 400)))
 tk.Label(espace_gauche, image=image).grid()
 
 espace_droite = tk.Frame(frame)
@@ -74,7 +74,6 @@ boutons_frame.grid(row=2, column=0, columnspan=2, pady=10, sticky="ew")
 tk.Button(boutons_frame, text="Partie rapide", width=15, command=lambda: lancer_jeu("rapid")).grid(row=0, column=0, padx=5, pady=2)
 tk.Button(boutons_frame, text="Nouvelle partie", width=15, command=lambda: lancer_jeu(False)).grid(row=0, column=1, padx=5, pady=2)
 tk.Button(boutons_frame, text="Charger partie", width=15, command=lambda: lancer_jeu(True)).grid(row=0, column=2, padx=5, pady=2)
-
 
 def verif_config():
     if not entree_lignes.get().isdigit() or not entree_colonnes.get().isdigit():
@@ -375,6 +374,11 @@ def charger():
 
 def lancer_jeu(charger_partie=False):
     global lignes, colonnes, joueur_actuel, joueurs,grille,jeu_actif,canvas,canvas_frame, jetons_pour_gagner
+    root.iconify()
+
+    if jeu_actif==True:
+        tk.messagebox.showwarning("Action imposible","Une partie est déja en cours")
+        return
 
     if charger_partie==True:
         lignes, colonnes, grille,joueur_actuel, joueurs, jetons_pour_gagner = charger()
@@ -421,5 +425,7 @@ def lancer_jeu(charger_partie=False):
     bouton_sauvegarde.grid(pady=5)
     bouton_quitter = tk.Button(fenetre_jeu, text="Quitter", command=quitter)
     bouton_quitter.grid(pady=5)
+
+    fenetre_jeu.protocol("WM_DELETE_WINDOW", root.destroy)
 
 root.mainloop()
