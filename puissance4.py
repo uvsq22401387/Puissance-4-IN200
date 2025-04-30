@@ -72,6 +72,40 @@ frame_boutons.grid(pady=10)
 tk.Button(frame_boutons, text="Nouvelle Partie", command=lambda: lancer_jeu(charger_partie=False)).grid(row=0, column=0, padx=5)
 tk.Button(frame_boutons, text="Charger Partie", command=lambda: lancer_jeu(charger_partie=True)).grid(row=0, column=1, padx=5)
 
+
+
+def verif_config():
+    if not entree_lignes.get().isdigit() or not entree_colonnes.get().isdigit():
+        tk.messagebox.showerror("Attention", "Erreur de dimensions.")
+        return False
+
+    lignes = int(entree_lignes.get())
+    colonnes = int(entree_colonnes.get())
+    if lignes < 4 or lignes > 8 or colonnes < 4 or colonnes > 8:
+        tk.messagebox.showerror("Attention", "Les dimensions doivent être comprises  entre 4x4 et 8x8.")
+        return False
+
+    if not entree_nb_jetons.get().isdigit():
+        tk.messagebox.showerror("Erreur", "Erreur de nombre de jetons")
+        return False
+
+    jetons = int(entree_nb_jetons.get())
+    if jetons < 3 or jetons > 7:
+        tk.messagebox.showerror("Erreur", "Le nombre de jetons pour gagner doit être compris entre 3 et 7.")
+        return False
+
+    if not entree_nom_joueur1.get().strip() or not entree_nom_joueur2.get().strip():
+        tk.messagebox.showerror("Erreur", "Veuillez renseigner un nom pour chaque joueur !")
+        return False
+
+    if not color_j1 or not color_j2:
+        tk.messagebox.showerror("Erreur", "Veuillez séléctionner une couleur pour chaque joueur !")
+        return False
+
+    return True
+
+
+
 #ça pas touche, c'est juste pour stocker de coté les couleurs 
 color_j1 = None
 color_j2 = None
@@ -347,6 +381,10 @@ def lancer_jeu(charger_partie=False):
     
 
     elif not charger_partie:
+
+        if not verif_config():
+            return
+        
         lignes = int(entree_lignes.get())
         colonnes = int(entree_colonnes.get())
         grille = [[None] * colonnes for _ in range(lignes)]
