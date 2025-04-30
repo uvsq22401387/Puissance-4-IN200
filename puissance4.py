@@ -1,7 +1,6 @@
 import tkinter as tk
 import random as rd
-from tkinter import colorchooser
-from tkinter import messagebox
+from tkinter import colorchooser, messagebox, font
 from PIL import Image, ImageTk
 
 # On initialise juste les variables globales
@@ -20,11 +19,13 @@ jetons_pour_gagner = 0
 root=tk.Tk()
 root.title("Menu Puissance 4")
 
+font.nametofont("TkDefaultFont").configure(family="Segoe UI", size=11)
+
 frame=tk.Frame(root)
 frame.grid(padx=20, pady=20)
 espace_gauche=tk.Frame(frame)
 espace_gauche.grid(row=0, column=0, padx=10)
-image=ImageTk.PhotoImage(Image.open("PIL/GAMEPIC.png").resize((200, 200)))
+image=ImageTk.PhotoImage(Image.open("PIL/GAMEPIC.png").resize((300, 300)))
 lab_im = tk.Label(espace_gauche, image=image)
 lab_im_im=lab_im
 lab_im_im.grid()
@@ -56,10 +57,15 @@ entree_nb_jetons = tk.Entry(espace_droite)
 entree_nb_jetons.grid(row=4, column=1)
 entree_nb_jetons.insert(0, 4)
 
+tk.Label(espace_droite, text="Joker autorisé ?").grid(row=5, column=0, sticky="w")
+options_liste= ["Oui", "Non"]
+joker_variable= tk.StringVar(value="Oui")
+tk.OptionMenu(espace_droite, joker_variable, *options_liste).grid(row=5, column=0, pady=5, sticky="e")
+
 bouton_color_j1 = tk.Button(espace_droite, text="Couleur Joueur 1", command=lambda: choisir_couleur(0, bouton_color_j1))
-bouton_color_j1.grid(row=5, column=0, sticky="w")
+bouton_color_j1.grid(row=6, column=0, sticky="w")
 bouton_color_j2 = tk.Button(espace_droite, text="Couleur Joueur 2", command=lambda: choisir_couleur(1, bouton_color_j2))
-bouton_color_j2.grid(row=6, column=0, sticky="w")
+bouton_color_j2.grid(row=7, column=0, sticky="w")
 
 frame_boutons = tk.Frame(espace_droite)
 frame_boutons.grid(pady=10)
@@ -334,15 +340,7 @@ def charger():
 
 
 def lancer_jeu(charger_partie=False):
-    global lignes
-    global colonnes
-    global joueur_actuel
-    global joueurs
-    global grille
-    global jeu_actif
-    global canvas
-    global canvas_frame
-    global jetons_pour_gagner
+    global lignes, colonnes, joueur_actuel, joueurs,grille,jeu_actif,canvas,canvas_frame, jetons_pour_gagner
 
     if charger_partie:
         lignes, colonnes, grille,joueur_actuel, joueurs, jetons_pour_gagner = charger()
@@ -355,6 +353,9 @@ def lancer_jeu(charger_partie=False):
         joueurs = [
             {"nom": entree_nom_joueur1.get(), "couleur": color_j1, "Joker": True},
             {"nom": entree_nom_joueur2.get(), "couleur": color_j2, "Joker": True}]
+        if joker_variable.get()=="Non":
+            joueurs[0]["Joker"]=False
+            joueurs[1]["Joker"]=False
         joueur_actuel = matchmaking()
         jetons_pour_gagner = int(entree_nb_jetons.get())
 
