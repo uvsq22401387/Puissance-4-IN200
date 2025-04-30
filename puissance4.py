@@ -69,8 +69,9 @@ bouton_color_j2.grid(row=7, column=0, sticky="w")
 
 frame_boutons = tk.Frame(espace_droite)
 frame_boutons.grid(pady=10)
-tk.Button(frame_boutons, text="Nouvelle Partie", command=lambda: lancer_jeu(charger_partie=False)).grid(row=0, column=0, padx=5)
-tk.Button(frame_boutons, text="Charger Partie", command=lambda: lancer_jeu(charger_partie=True)).grid(row=0, column=1, padx=5)
+tk.Button(frame_boutons, text="Partie rapide", command=lambda: lancer_jeu(charger_partie="rapid")).grid(row=0, column=0, padx=5)
+tk.Button(frame_boutons, text="Nouvelle Partie", command=lambda: lancer_jeu(charger_partie=False)).grid(row=0, column=1, padx=5)
+tk.Button(frame_boutons, text="Charger Partie", command=lambda: lancer_jeu(charger_partie=True)).grid(row=0, column=2, padx=5)
 
 
 
@@ -380,11 +381,20 @@ def charger():
 def lancer_jeu(charger_partie=False):
     global lignes, colonnes, joueur_actuel, joueurs,grille,jeu_actif,canvas,canvas_frame, jetons_pour_gagner
 
-    if charger_partie:
+    if charger_partie==True:
         lignes, colonnes, grille,joueur_actuel, joueurs, jetons_pour_gagner = charger()
-    
 
-    elif not charger_partie:
+    elif charger_partie=="rapid":
+        lignes=6
+        colonnes=7
+        grille = [[None] * colonnes for _ in range(lignes)]
+        joueurs = [
+            {"nom": "Joueur 1", "couleur": "red", "Joker": False},
+            {"nom": "Joueur 2", "couleur": "yellow", "Joker": False}]
+        joueur_actuel = matchmaking()
+        jetons_pour_gagner = 4
+
+    elif charger_partie==False:
 
         if not verif_config():
             return
