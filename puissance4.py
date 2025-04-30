@@ -103,31 +103,6 @@ def afficher_grille():
                 couleur = case["couleur"]
             canvas.create_oval(x1, y1, x2, y2, fill=couleur, outline="black", width=4)
 
-start_time = None  
-label_timer = None  
-
-def lancer_timer():
-    """Fonction pour démarrer le timer"""
-    global start_time, label_timer
-    start_time = time.time()
-
-   
-    label_timer = tk.Label(fenetre_jeu, text="Temps écoulé : 00:00", font=("Helvetica", 12), fg="white", bg="#2C3E50")
-    label_timer.grid(row=0, column=0, padx=10, pady=10)
-
-    def mettre_a_jour_timer():
-        if not jeu_actif:  
-            return
-        if start_time:
-            elapsed_time = time.time() - start_time
-            minutes = int(elapsed_time // 60)
-            secondes = int(elapsed_time % 60)
-            label_timer.config(text=f"Temps écoulé : {minutes:02d}:{secondes:02d}")
-        
-        fenetre_jeu.after(1000, mettre_a_jour_timer)
-    
-    mettre_a_jour_timer()
-    
 def interagir_jeu(event):
     """fonction qui permet de placer son jeton dans la grille"""
     global joueur_actuel
@@ -227,8 +202,6 @@ def fenetre_congrats(joueur):#ici aussi, on doit restyliser
     """affiche une fenetre de victoire lorsqu'un joueur gagne""" 
     global jeu_actif
     jeu_actif = False
-
-    ajouter_victoire(joueur)
     
     fenetre2 = tk.Toplevel()
     fenetre2.title("Victoire !")
@@ -237,15 +210,6 @@ def fenetre_congrats(joueur):#ici aussi, on doit restyliser
     tk.Button(fenetre2, text="Recommencer", command=lambda: recommencer(fenetre2)).grid()
     tk.Button(fenetre2, text="Fermer", command=root.destroy).grid()  #enft, fallait passer fenetre2 comme argument
 
-def ajouter_victoire(joueur):
-    joueur["victoires"] += 1
-
-def afficher_scores():
-    fenetre_score = tk.Toplevel()
-    fenetre_score.title("Scores")
-    for idx, joueur in enumerate(joueurs):
-        score_txt = f"{joueur['nom']} : {joueur['victoires']} victoire(s)"
-        tk.Label(fenetre_score, text=score_txt, fg=joueur["couleur"]).grid(row=idx, column=0, pady=5)
 
 def match_nul():#la fonction marche, mais c'est pas beau dutout...
     """affiche une fenetre de match nul"""
@@ -384,8 +348,6 @@ def lancer_jeu(charger_partie=False):
     jeu_actif=True
     fenetre_jeu = tk.Toplevel()
     fenetre_jeu.title("Puissance 4")
-    bouton_scores = tk.Button(fenetre_jeu, text="Voir les scores", command=afficher_scores)
-    bouton_scores.grid(pady=5)
     canvas_frame = tk.Frame(fenetre_jeu)
     canvas_frame.grid()
     canvas = tk.Canvas(canvas_frame, width=colonnes * dim_case, height=lignes * dim_case, bg="#2C3E50")
@@ -396,5 +358,4 @@ def lancer_jeu(charger_partie=False):
 
     bouton_sauvegarde = tk.Button(fenetre_jeu, text="Sauvegarder", command=sauvegarder)
     bouton_sauvegarde.grid(pady=5)
-    lancer_timer()
 root.mainloop()
