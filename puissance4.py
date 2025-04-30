@@ -14,6 +14,9 @@ joueurs = [
     {"nom": None, "couleur": None, "Joker": True}]
 liste_coups = []
 jetons_pour_gagner = 0
+#ça pas touche, c'est juste pour stocker de coté les couleurs 
+color_j1 = None
+color_j2 = None
 
 #Contenu fenêtre principale/config
 root=tk.Tk()
@@ -21,58 +24,56 @@ root.title("Menu Puissance 4")
 
 font.nametofont("TkDefaultFont").configure(family="Segoe UI", size=11)
 
-frame=tk.Frame(root)
+frame = tk.Frame(root)
 frame.grid(padx=20, pady=20)
-espace_gauche=tk.Frame(frame)
-espace_gauche.grid(row=0, column=0, padx=10)
-image=ImageTk.PhotoImage(Image.open("PIL/GAMEPIC.png").resize((300, 300)))
-lab_im = tk.Label(espace_gauche, image=image)
-lab_im_im=lab_im
-lab_im_im.grid()
 
-espace_droite=tk.Frame(frame)
+espace_gauche = tk.Frame(frame)
+espace_gauche.grid(row=0, column=0, padx=10)
+image = ImageTk.PhotoImage(Image.open("PIL/GAMEPIC.png").resize((300, 300)))
+tk.Label(espace_gauche, image=image).grid()
+
+espace_droite = tk.Frame(frame)
 espace_droite.grid(row=0, column=1, padx=10)
-tk.Label(espace_droite, text="Nombre de lignes :").grid(row=0, column=0, sticky="w")
-entree_lignes = tk.Entry(espace_droite)
+
+grille_frame = tk.LabelFrame(espace_droite, text="Configuration de la Grille", padx=10, pady=10)
+grille_frame.grid(row=0, column=0, columnspan=2, sticky="ew", pady=5)
+tk.Label(grille_frame, text="Nombre de lignes :").grid(row=0, column=0, sticky="w")
+entree_lignes = tk.Entry(grille_frame)
 entree_lignes.grid(row=0, column=1)
 entree_lignes.insert(0, "6")
-
-tk.Label(espace_droite, text="Nombre de colonnes :").grid(row=1, column=0, sticky="w")
-entree_colonnes = tk.Entry(espace_droite)
+tk.Label(grille_frame, text="Nombre de colonnes :").grid(row=1, column=0, sticky="w")
+entree_colonnes = tk.Entry(grille_frame)
 entree_colonnes.grid(row=1, column=1)
 entree_colonnes.insert(0, "7")
+tk.Label(grille_frame, text="Jetons pour gagner :").grid(row=2, column=0, sticky="w")
+entree_nb_jetons = tk.Entry(grille_frame)
+entree_nb_jetons.grid(row=2, column=1)
+entree_nb_jetons.insert(0, "4")
 
-tk.Label(espace_droite, text="Nom du Joueur 1 :").grid(row=2, column=0, sticky="w")
-entree_nom_joueur1 = tk.Entry(espace_droite)
-entree_nom_joueur1.grid(row=2, column=1)
+
+joueurs_frame = tk.LabelFrame(espace_droite, text="Joueurs", padx=10, pady=10)
+joueurs_frame.grid(row=1, column=0, columnspan=2, sticky="ew", pady=5)
+tk.Label(joueurs_frame, text="Nom Joueur 1 :").grid(row=0, column=0, sticky="w")
+entree_nom_joueur1 = tk.Entry(joueurs_frame)
+entree_nom_joueur1.grid(row=0, column=1)
 entree_nom_joueur1.insert(0, "Joueur 1")
-
-tk.Label(espace_droite, text="Nom du Joueur 2 :").grid(row=3, column=0, sticky="w")
-entree_nom_joueur2 = tk.Entry(espace_droite)
-entree_nom_joueur2.grid(row=3, column=1)
+bouton_color_j1 = tk.Button(joueurs_frame, text="Couleur", bg=color_j1, command=lambda: choisir_couleur(0, bouton_color_j1))
+bouton_color_j1.grid(row=0, column=2, padx=5)
+tk.Label(joueurs_frame, text="Nom Joueur 2 :").grid(row=1, column=0, sticky="w")
+entree_nom_joueur2 = tk.Entry(joueurs_frame)
+entree_nom_joueur2.grid(row=1, column=1)
 entree_nom_joueur2.insert(0, "Joueur 2")
+bouton_color_j2 = tk.Button(joueurs_frame, text="Couleur", bg=color_j2, command=lambda: choisir_couleur(1, bouton_color_j2))
+bouton_color_j2.grid(row=1, column=2, padx=5)
+tk.Label(joueurs_frame, text="Joker autorisé ?").grid(row=2, column=0, sticky="w")
+joker_variable = tk.StringVar(value="Oui")
+tk.OptionMenu(joueurs_frame, joker_variable, "Oui", "Non").grid(row=2, column=1, columnspan=2, sticky="w")
 
-tk.Label(espace_droite, text="Nombre de jetons pour gagner :").grid(row=4, column=0, sticky="w")
-entree_nb_jetons = tk.Entry(espace_droite)
-entree_nb_jetons.grid(row=4, column=1)
-entree_nb_jetons.insert(0, 4)
-
-tk.Label(espace_droite, text="Joker autorisé ?").grid(row=5, column=0, sticky="w")
-options_liste= ["Oui", "Non"]
-joker_variable= tk.StringVar(value="Oui")
-tk.OptionMenu(espace_droite, joker_variable, *options_liste).grid(row=5, column=0, pady=5, sticky="e")
-
-bouton_color_j1 = tk.Button(espace_droite, text="Couleur Joueur 1", command=lambda: choisir_couleur(0, bouton_color_j1))
-bouton_color_j1.grid(row=6, column=0, sticky="w")
-bouton_color_j2 = tk.Button(espace_droite, text="Couleur Joueur 2", command=lambda: choisir_couleur(1, bouton_color_j2))
-bouton_color_j2.grid(row=7, column=0, sticky="w")
-
-frame_boutons = tk.Frame(espace_droite)
-frame_boutons.grid(pady=10)
-tk.Button(frame_boutons, text="Partie rapide", command=lambda: lancer_jeu(charger_partie="rapid")).grid(row=0, column=0, padx=5)
-tk.Button(frame_boutons, text="Nouvelle Partie", command=lambda: lancer_jeu(charger_partie=False)).grid(row=0, column=1, padx=5)
-tk.Button(frame_boutons, text="Charger Partie", command=lambda: lancer_jeu(charger_partie=True)).grid(row=0, column=2, padx=5)
-
+boutons_frame = tk.LabelFrame(espace_droite, text="Lancement", padx=10, pady=10)
+boutons_frame.grid(row=2, column=0, columnspan=2, pady=10, sticky="ew")
+tk.Button(boutons_frame, text="Partie rapide", width=15, command=lambda: lancer_jeu("rapid")).grid(row=0, column=0, padx=5, pady=2)
+tk.Button(boutons_frame, text="Nouvelle partie", width=15, command=lambda: lancer_jeu(False)).grid(row=0, column=1, padx=5, pady=2)
+tk.Button(boutons_frame, text="Charger partie", width=15, command=lambda: lancer_jeu(True)).grid(row=0, column=2, padx=5, pady=2)
 
 
 def verif_config():
@@ -104,12 +105,6 @@ def verif_config():
         return False
 
     return True
-
-
-
-#ça pas touche, c'est juste pour stocker de coté les couleurs 
-color_j1 = None
-color_j2 = None
 
 def choisir_couleur(index, bouton):
     global color_j1
