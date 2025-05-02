@@ -11,8 +11,8 @@ colonnes = 0
 dim_case = 80
 grille = [[None] * colonnes for _ in range(lignes)]
 joueurs = [
-    {"nom": None, "couleur": None, "Joker": True},
-    {"nom": None, "couleur": None, "Joker": True}]
+    {"nom": None, "couleur": None, "Joker": True, "victoires":0},
+    {"nom": None, "couleur": None, "Joker": True, "victoires":0}]
 liste_coups = []
 jetons_pour_gagner = 0
 #ça pas touche, c'est juste pour stocker de coté les couleurs 
@@ -271,6 +271,8 @@ def fenetre_congrats(joueur):#ici aussi, on doit restyliser
     """affiche une fenetre de victoire lorsqu'un joueur gagne""" 
     global jeu_actif
     jeu_actif = False
+
+    ajouter_victoire(joueur)
     
     fenetre2 = tk.Toplevel()
     fenetre2.title("Victoire !")
@@ -279,6 +281,15 @@ def fenetre_congrats(joueur):#ici aussi, on doit restyliser
     tk.Button(fenetre2, text="Recommencer", command=lambda: recommencer(fenetre2)).grid()
     tk.Button(fenetre2, text="Quitter", command=quitter).grid()  #enft, fallait passer fenetre2 comme argument
 
+def ajouter_victoire(joueur):
+    joueur["victoires"] += 1
+
+def afficher_scores():
+    fenetre_score = tk.Toplevel()
+    fenetre_score.title("Scores")
+    for idx, joueur in enumerate(joueurs):
+        score_txt = f"{joueur['nom']} : {joueur['victoires']} victoire(s)"
+        tk.Label(fenetre_score, text=score_txt, fg=joueur["couleur"]).grid(row=idx, column=0, pady=5)
 
 def match_nul():#la fonction marche, mais c'est pas beau dutout...
     """affiche une fenetre de match nul"""
@@ -447,9 +458,12 @@ def lancer_jeu(charger_partie=False):
     canvas.bind("<Button-1>", interagir_jeu)
     canvas.bind("<Button-3>", utiliser_joker)
     afficher_grille()
+    
 
     bouton_sauvegarde = tk.Button(fenetre_jeu, text="Sauvegarder", command=sauvegarder)
     bouton_sauvegarde.grid(pady=5)
+    bouton_scores = tk.Button(fenetre_jeu, text="Voir les scores", command=afficher_scores)
+    bouton_scores.grid(pady=5)
     bouton_quitter = tk.Button(fenetre_jeu, text="Quitter", command=quitter)
     bouton_quitter.grid(pady=5)
 
