@@ -24,6 +24,9 @@ root=tk.Tk()
 root.title("Menu Puissance 4")
 
 font.nametofont("TkDefaultFont").configure(family="Segoe UI", size=11)
+bouton_style_1 = {"bg": "#1ABC9C", "fg": "white", "font": ("Arial", 11, "bold"), "bd": 2, "relief": "groove"}
+bouton_style_2 = {"bg": "#C0392B", "fg": "white", "font": ("Arial", 11, "bold"), "bd": 2, "relief": "groove"}
+bouton_style_3 = {"bg": "#FFD700", "fg": "white", "font": ("Arial", 11, "bold"), "bd": 2, "relief": "groove"}
 
 frame = tk.Frame(root)
 frame.grid(padx=20, pady=20)
@@ -72,9 +75,9 @@ tk.OptionMenu(joueurs_frame, joker_variable, "Oui", "Non").grid(row=2, column=1,
 
 boutons_frame = tk.LabelFrame(espace_droite, text="Lancement", padx=10, pady=10)
 boutons_frame.grid(row=2, column=0, columnspan=2, pady=10, sticky="ew")
-tk.Button(boutons_frame, text="Partie rapide", width=15, command=lambda: lancer_jeu("rapid")).grid(row=0, column=0, padx=5, pady=2)
-tk.Button(boutons_frame, text="Nouvelle partie", width=15, command=lambda: lancer_jeu(False)).grid(row=0, column=1, padx=5, pady=2)
-tk.Button(boutons_frame, text="Charger partie", width=15, command=lambda: lancer_jeu(True)).grid(row=0, column=2, padx=5, pady=2)
+tk.Button(boutons_frame, text="Partie rapide", width=15, command=lambda: lancer_jeu("rapid"), **bouton_style_1).grid(row=0, column=0, padx=5, pady=2)
+tk.Button(boutons_frame, text="Nouvelle partie", width=15, command=lambda: lancer_jeu(False), **bouton_style_1).grid(row=0, column=1, padx=5, pady=2)
+tk.Button(boutons_frame, text="Charger partie", width=15, command=lambda: lancer_jeu(True), **bouton_style_1).grid(row=0, column=2, padx=5, pady=2)
 
 def verif_config():
     if not entree_lignes.get().isdigit() or not entree_colonnes.get().isdigit():
@@ -155,7 +158,7 @@ def lancer_timer():
     start_time = time.time()
 
     
-    label_timer = tk.Label(fenetre_jeu, text="Temps écoulé : 00:00", font=("Helvetica", 12), fg="white", bg="#2C3E50")
+    label_timer = tk.Label(frame_boutons, text="Temps écoulé : 00:00", font=("Helvetica", 12, "bold"), fg="white", bg="#2C3E50")
     label_timer.grid(row=0, column=0, padx=10, pady=10)
 
     def mettre_a_jour_timer():
@@ -187,6 +190,7 @@ def interagir_jeu(event):
                 afficher_grille()
                 if verifier_victoire(i, colonne):
                     fenetre_congrats(joueur_actuel)
+                    ajouter_victoire(joueur_actuel)
                     jeu_actif = False
                     return
                 elif match_nul():#recommendation de la prof : ajout de la condition pour que si toute la grille est remplie, ca affiche match nul
@@ -271,15 +275,14 @@ def fenetre_congrats(joueur):#ici aussi, on doit restyliser
     """affiche une fenetre de victoire lorsqu'un joueur gagne""" 
     global jeu_actif
     jeu_actif = False
-
-    ajouter_victoire(joueur)
     
     fenetre2 = tk.Toplevel()
     fenetre2.title("Victoire !")
     message_victoire = joueur["nom"] + " a gagné !"
-    tk.Label(fenetre2, text=message_victoire, fg=joueur["couleur"]).grid()
-    tk.Button(fenetre2, text="Recommencer", command=lambda: recommencer(fenetre2)).grid()
-    tk.Button(fenetre2, text="Quitter", command=quitter).grid()  #enft, fallait passer fenetre2 comme argument
+    tk.Label(fenetre2, text=message_victoire, fg=joueur["couleur"]).grid(row=0, columnspan=2)
+    tk.Button(fenetre2, text="Recommencer", command=lambda: recommencer(fenetre2), **bouton_style_1).grid(row=1, column=0, padx=10)
+    tk.Button(fenetre2, text="Quitter", command=quitter, **bouton_style_2).grid(row=1, column=1, padx=10)  #enft, fallait passer fenetre2 comme argument
+    fenetre2.protocol("WM_DELETE_WINDOW", root.destroy)
 
 def ajouter_victoire(joueur):
     joueur["victoires"] += 1
@@ -288,7 +291,7 @@ def afficher_scores():
     fenetre_score = tk.Toplevel()
     fenetre_score.title("Scores")
     for idx, joueur in enumerate(joueurs):
-        score_txt = f"{joueur['nom']} : {joueur['victoires']} victoire(s)"
+        score_txt = f"{joueur["nom"]} : {joueur["victoires"]} victoire(s)"
         tk.Label(fenetre_score, text=score_txt, fg=joueur["couleur"]).grid(row=idx, column=0, pady=5)
 
 def match_nul():#la fonction marche, mais c'est pas beau dutout...
@@ -298,15 +301,15 @@ def match_nul():#la fonction marche, mais c'est pas beau dutout...
         jeu_actif = False
         fenetre3 = tk.Toplevel(root)
         fenetre3.title("Match nul !")
-        label = tk.Label(fenetre3, text="Match nul !", fg="orange")
-        label.grid(column=1, row=0, padx=50)
-        label2 = tk.Label(fenetre3, text="Personne n'a gagné. Sélectionnez une option:", fg="orange")
-        label2.grid(column=1, row=1, padx=50)
-        bouton_recommencer = tk.Button(fenetre3, text="Recommencer", command=lambda: recommencer(fenetre3))
-        bouton_recommencer.grid(column=0, row=1, padx=10, pady=10)
-        bouton_fermer = tk.Button(fenetre3, text="Quitter", command=quitter)
-        bouton_fermer.grid(column=1, row=1, padx=50)
-
+        label = tk.Label(fenetre3, text="Match nul ! Personne n'a gagné.", fg="orange")
+        label.grid(columnspan=2, row=0, padx=50)
+        label2 = tk.Label(fenetre3, text="Sélectionnez une option:", fg="orange")
+        label2.grid(columnspan=2, row=1, padx=50)
+        bouton_recommencer = tk.Button(fenetre3, text="Recommencer", command=lambda: recommencer(fenetre3), **bouton_style_1)
+        bouton_recommencer.grid(column=0, row=2, padx=10, pady=10)
+        bouton_fermer = tk.Button(fenetre3, text="Quitter", command=quitter, **bouton_style_2)
+        bouton_fermer.grid(column=1, row=2, padx=50)
+        fenetre3.protocol("WM_DELETE_WINDOW", root.destroy)
         return True
 
     return False
@@ -386,8 +389,8 @@ def charger():
     dimensions_colonne=int(dimensions[1])
 
     joueurs = [
-            {"nom": nom_joueur1, "couleur": couleur_joueur1, "Joker": joker_1},
-            {"nom": nom_joueur2, "couleur": couleur_joueur2, "Joker": joker_2}]
+            {"nom": nom_joueur1, "couleur": couleur_joueur1, "Joker": joker_1, "victoires":0},
+            {"nom": nom_joueur2, "couleur": couleur_joueur2, "Joker": joker_2, "victoires":0}]
     
     joueur_actuel_sv=joueurs[int(joueur_actuel)]
 
@@ -411,7 +414,7 @@ def charger():
 
 
 def lancer_jeu(charger_partie=False):
-    global lignes, colonnes, joueur_actuel, joueurs,grille,jeu_actif,canvas,canvas_frame, jetons_pour_gagner, fenetre_jeu
+    global lignes, colonnes, joueur_actuel, joueurs,grille,jeu_actif,canvas,canvas_frame, jetons_pour_gagner, fenetre_jeu, frame_boutons
     root.iconify()
 
     if jeu_actif==True:
@@ -426,8 +429,8 @@ def lancer_jeu(charger_partie=False):
         colonnes=7
         grille = [[None] * colonnes for _ in range(lignes)]
         joueurs = [
-            {"nom": "Joueur 1", "couleur": "red", "Joker": False},
-            {"nom": "Joueur 2", "couleur": "yellow", "Joker": False}]
+            {"nom": "Joueur 1", "couleur": "red", "Joker": False, "victoires":0},
+            {"nom": "Joueur 2", "couleur": "yellow", "Joker": False, "victoires":0}]
         joueur_actuel = matchmaking()
         jetons_pour_gagner = 4
 
@@ -440,8 +443,8 @@ def lancer_jeu(charger_partie=False):
         colonnes = int(entree_colonnes.get())
         grille = [[None] * colonnes for _ in range(lignes)]
         joueurs = [
-            {"nom": entree_nom_joueur1.get(), "couleur": color_j1, "Joker": True},
-            {"nom": entree_nom_joueur2.get(), "couleur": color_j2, "Joker": True}]
+            {"nom": entree_nom_joueur1.get(), "couleur": color_j1, "Joker": True, "victoires":0},
+            {"nom": entree_nom_joueur2.get(), "couleur": color_j2, "Joker": True, "victoires":0}]
         if joker_variable.get()=="Non":
             joueurs[0]["Joker"]=False
             joueurs[1]["Joker"]=False
@@ -450,22 +453,25 @@ def lancer_jeu(charger_partie=False):
 
     jeu_actif=True
     fenetre_jeu = tk.Toplevel()
+    fenetre_jeu.configure(bg="#2C3E50")
     fenetre_jeu.title("Puissance 4")
-    canvas_frame = tk.Frame(fenetre_jeu)
-    canvas_frame.grid()
+    canvas_frame = tk.Frame(fenetre_jeu, bd=7, relief="ridge")
+    canvas_frame.grid(row=0, column=1)
     canvas = tk.Canvas(canvas_frame, width=colonnes * dim_case, height=lignes * dim_case, bg="#2C3E50")
     canvas.grid()
     canvas.bind("<Button-1>", interagir_jeu)
     canvas.bind("<Button-3>", utiliser_joker)
     afficher_grille()
     
+    frame_boutons = tk.Frame(fenetre_jeu, bg="#2C3E50")
+    frame_boutons.grid(row=0, column=0)
 
-    bouton_sauvegarde = tk.Button(fenetre_jeu, text="Sauvegarder", command=sauvegarder)
-    bouton_sauvegarde.grid(pady=5)
-    bouton_scores = tk.Button(fenetre_jeu, text="Voir les scores", command=afficher_scores)
-    bouton_scores.grid(pady=5)
-    bouton_quitter = tk.Button(fenetre_jeu, text="Quitter", command=quitter)
-    bouton_quitter.grid(pady=5)
+    bouton_scores = tk.Button(frame_boutons, text="Voir les scores", command=afficher_scores, **bouton_style_3)
+    bouton_scores.grid(row=1, pady=5)
+    bouton_sauvegarde = tk.Button(frame_boutons, text="Sauvegarder", command=sauvegarder, **bouton_style_1)
+    bouton_sauvegarde.grid(row=5, pady=5)
+    bouton_quitter = tk.Button(frame_boutons, text="Quitter", command=quitter, **bouton_style_2)
+    bouton_quitter.grid(row=6, pady=5)
 
     fenetre_jeu.protocol("WM_DELETE_WINDOW", root.destroy)
     lancer_timer()
