@@ -279,9 +279,9 @@ def fenetre_congrats(joueur):#ici aussi, on doit restyliser
     fenetre2 = tk.Toplevel()
     fenetre2.title("Victoire !")
     message_victoire = joueur["nom"] + " a gagné !"
-    tk.Label(fenetre2, text=message_victoire, fg=joueur["couleur"]).grid(row=0, columnspan=2)
-    tk.Button(fenetre2, text="Recommencer", command=lambda: recommencer(fenetre2), **bouton_style_1).grid(row=1, column=0, padx=10)
-    tk.Button(fenetre2, text="Quitter", command=quitter, **bouton_style_2).grid(row=1, column=1, padx=10)  #enft, fallait passer fenetre2 comme argument
+    tk.Label(fenetre2, text=message_victoire, fg=joueur["couleur"], font=("Arial", 11, "bold")).grid(row=0, columnspan=2, pady=20)
+    tk.Button(fenetre2, text="Recommencer", command=lambda: recommencer(fenetre2), **bouton_style_1).grid(row=1, column=0, padx=10, pady= 10)
+    tk.Button(fenetre2, text="Quitter", command=quitter, **bouton_style_2).grid(row=1, column=1, padx=10, pady=10)  #enft, fallait passer fenetre2 comme argument
     fenetre2.protocol("WM_DELETE_WINDOW", root.destroy)
 
 def ajouter_victoire(joueur):
@@ -301,9 +301,9 @@ def match_nul():#la fonction marche, mais c'est pas beau dutout...
         jeu_actif = False
         fenetre3 = tk.Toplevel(root)
         fenetre3.title("Match nul !")
-        label = tk.Label(fenetre3, text="Match nul ! Personne n'a gagné.", fg="orange")
+        label = tk.Label(fenetre3, text="Match nul ! Personne n'a gagné.", fg="orange", font=("Arial", 11, "bold"))
         label.grid(columnspan=2, row=0, padx=50)
-        label2 = tk.Label(fenetre3, text="Sélectionnez une option:", fg="orange")
+        label2 = tk.Label(fenetre3, text="Sélectionnez une option:", fg="orange", font=("Arial", 11, "bold"))
         label2.grid(columnspan=2, row=1, padx=50)
         bouton_recommencer = tk.Button(fenetre3, text="Recommencer", command=lambda: recommencer(fenetre3), **bouton_style_1)
         bouton_recommencer.grid(column=0, row=2, padx=10, pady=10)
