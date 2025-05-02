@@ -400,7 +400,7 @@ def charger():
 
 
 def lancer_jeu(charger_partie=False):
-    global lignes, colonnes, joueur_actuel, joueurs,grille,jeu_actif,canvas,canvas_frame, jetons_pour_gagner
+    global lignes, colonnes, joueur_actuel, joueurs,grille,jeu_actif,canvas,canvas_frame, jetons_pour_gagner, fenetre_jeu
     root.iconify()
 
     if jeu_actif==True:
