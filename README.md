@@ -23,14 +23,14 @@ Le projet consiste en la réalisation d'un jeu de Puissance 4 en Python
 - [x] Fenêtre de match nul.
 - [x] Possibilité de recommencer une partie après une victoire.
 - [x] Joker pendant une partie - annuler un coup joué (En cours de développement)
-- [ ] Timer : temps de jeu limité
+- [x] Temps de jeu
 
 ## Aperçu du jeu
 Voici un aperçu du jeu en action :
 
 <div style="display: flex; justify-content: space-between;">
-  <img src="ressources/SCREENSHOT_CONFIG.png" alt="Screenshot Config" width="45%" />
-  <img src="ressources/screenshot.png" alt="Screenshot" width="45%" />
+  <img src="ressources/SCREENSHOT_CONFIG.pg" alt="Screenshot Config" width="45%" />
+  <img src="ressources/screenshot.pg" alt="Screenshot" width="45%" />
 </div>
 
 
