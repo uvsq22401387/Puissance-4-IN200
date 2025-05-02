@@ -2,6 +2,7 @@ import tkinter as tk
 import random as rd
 from tkinter import colorchooser, messagebox, font
 from PIL import Image, ImageTk
+import time 
 
 # On initialise juste les variables globales
 jeu_actif = False
