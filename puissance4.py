@@ -415,7 +415,6 @@ def charger():
 
 def lancer_jeu(charger_partie=False):
     global lignes, colonnes, joueur_actuel, joueurs,grille,jeu_actif,canvas,canvas_frame, jetons_pour_gagner, fenetre_jeu, frame_boutons
-    root.iconify()
 
     if jeu_actif==True:
         tk.messagebox.showwarning("Action imposible","Une partie est déja en cours")
@@ -451,6 +450,7 @@ def lancer_jeu(charger_partie=False):
         joueur_actuel = matchmaking()
         jetons_pour_gagner = int(entree_nb_jetons.get())
 
+    root.iconify()
     jeu_actif=True
     fenetre_jeu = tk.Toplevel()
     fenetre_jeu.configure(bg="#2C3E50")
