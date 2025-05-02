@@ -29,8 +29,6 @@ Le projet consiste en la réalisation d'un jeu de Puissance 4 en Python
 Voici un aperçu du jeu en action :
 
 <div style="display: flex; justify-content: space-between;">
-  <img src="ressources/SCREENSHOT_CONFIG.png" alt="Screenshot Config" width="45%" />
-  <img src="ressources/screenshot.png" alt="Screenshot" width="45%" />
 </div>
 
 
