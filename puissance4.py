@@ -324,6 +324,7 @@ def recommencer(fenetre):
     if fenetre!=root:
         fenetre.destroy()
     afficher_grille()
+    lancer_timer()
 
 def quitter():
         if messagebox.askyesno("Confirmation", "Veux-tu vraiment quitter ?"):
