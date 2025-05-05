@@ -294,7 +294,7 @@ def afficher_scores():
         score_txt = f"{joueur["nom"]} : {joueur["victoires"]} victoire(s)"
         tk.Label(fenetre_score, text=score_txt, fg=joueur["couleur"]).grid(row=idx, column=0, pady=5)
 
-def match_nul():#la fonction marche, mais c'est pas beau dutout...
+def match_nul():#la fonction marche
     """affiche une fenetre de match nul"""
     global jeu_actif
     if all(None not in ligne for ligne in grille):
