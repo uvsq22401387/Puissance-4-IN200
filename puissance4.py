@@ -343,12 +343,12 @@ def sauvegarder():
     else:
         fichier.write("1\n")
 
-    fichier.write(f"{joueurs[0]['nom']}-{joueurs[0]['couleur']}\n")
-    fichier.write(f"{joueurs[1]['nom']}-{joueurs[1]['couleur']}\n")
+    fichier.write(f"{joueurs[0]["nom"]}-{joueurs[0]["couleur"]}\n")
+    fichier.write(f"{joueurs[1]["nom"]}-{joueurs[1]["couleur"]}\n")
 
     fichier.write(f"{jetons_pour_gagner}\n")
     
-    fichier.write(f"{joueurs[0]['Joker']}-{joueurs[1]['Joker']}\n")
+    fichier.write(f"{joueurs[0]["Joker"]}-{joueurs[1]["Joker"]}\n")
 
     fichier.write(f"{lignes}x{colonnes}\n")
 
